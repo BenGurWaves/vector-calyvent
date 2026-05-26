@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VECTOR — PDF to Figma Vectors</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --canvas-base: #121214;
+      --card-base: #1C1C1E;
+      --text-primary: #F4F4F5;
+      --text-secondary: #A1A1AA;
+      --border-active: #3F3F46;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--canvas-base);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 640px;
+      width: 100%;
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .logo h1 {
+      font-size: 2.5rem;
+      font-weight: 300;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .logo hr {
+      width: 120px;
+      border: none;
+      border-top: 1px solid var(--border-active);
+      opacity: 0.3;
+      margin: 0 auto;
+    }
+
+    .drop-zone {
+      background: var(--card-base);
+      border: 1px solid var(--border-active);
+      border-radius: 8px;
+      padding: 4rem 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .drop-zone:hover,
+    .drop-zone.drag-over {
+      border-color: var(--text-secondary);
+      background: #1a1a1c;
+    }
+
+    .drop-zone p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .drop-zone .size-limit {
+      display: block;
+      margin-top: 0.75rem;
+      font-size: 0.85rem;
+      opacity: 0.6;
+    }
+
+    .status {
+      margin-top: 2rem;
+      text-align: center;
+      font-family: 'SF Mono', 'Monaco', 'Inconsolata', monospace;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      min-height: 1.2em;
+    }
+
+    .status.processing {
+      color: var(--text-primary);
+    }
+
+    .status.error {
+      color: #ef4444;
+    }
+
+    .status.success {
+      color: #22c55e;
+    }
+
+    .output-section {
+      margin-top: 2rem;
+      display: none;
+    }
+
+    .output-section.visible {
+      display: block;
+    }
+
+    .copy-btn {
+      width: 100%;
+      padding: 1.25rem 2rem;
+      background: var(--card-base);
+      border: 1px solid var(--border-active);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-size: 0.95rem;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .copy-btn:hover {
+      border-color: var(--text-secondary);
+      background: #1a1a1c;
+    }
+
+    .copy-btn:active {
+      transform: translateY(1px);
+    }
+
+    .copy-btn.copied {
+      background: #1a2e1a;
+      border-color: #22c55e;
+    }
+
+    .footer {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      color: var(--text-secondary);
+      opacity: 0.5;
+    }
+
+    .paywall-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .paywall-modal.visible {
+      display: flex;
+    }
+
+    .paywall-content {
+      background: var(--card-base);
+      border: 1px solid var(--border-active);
+      border-radius: 8px;
+      padding: 3rem;
+      max-width: 480px;
+      text-align: center;
+    }
+
+    .paywall-content h2 {
+      font-size: 1.5rem;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      margin-bottom: 1.5rem;
+    }
+
+    .paywall-content p {
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+
+    .paywall-content .pricing {
+      margin: 2rem 0;
+      padding: 1.5rem;
+      background: var(--canvas-base);
+      border-radius: 6px;
+    }
+
+    .paywall-content .pricing-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+      font-size: 0.95rem;
+    }
+
+    .paywall-content .pricing-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .paywall-content .close-btn {
+      margin-top: 1.5rem;
+      padding: 0.75rem 2rem;
+      background: transparent;
+      border: 1px solid var(--border-active);
+      border-radius: 6px;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .paywall-content .close-btn:hover {
+      border-color: var(--text-primary);
+      color: var(--text-primary);
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 1rem;
+      }
+
+      .logo h1 {
+        font-size: 1.75rem;
+      }
+
+      .drop-zone {
+        padding: 3rem 1.5rem;
+      }
+
+      .footer {
+        bottom: 1rem;
+        right: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">
+      <h1>VECTOR</h1>
+      <hr>
+    </div>
+
+    <div class="drop-zone" id="dropZone">
+      <p>Drop your layout PDF here to extract layered vectors</p>
+      <span class="size-limit">Max 15MB for local compilation</span>
+    </div>
+
+    <input type="file" id="fileInput" accept=".pdf">
+
+    <div class="status" id="status">Idle</div>
+
+    <div class="output-section" id="outputSection">
+      <button class="copy-btn" id="copyBtn">Copy SVG Vector Data to Clipboard</button>
+    </div>
+  </div>
+
+  <div class="footer">Built by Velocity — Digital Architecture House</div>
+
+  <div class="paywall-modal" id="paywallModal">
+    <div class="paywall-content">
+      <h2>FILE SIZE EXCEEDED</h2>
+      <p>Your PDF exceeds the 15MB free tier limit. Upgrade to process larger files.</p>
+      <div class="pricing">
+        <div class="pricing-row">
+          <span>Monthly</span>
+          <span>$9/mo per seat</span>
+        </div>
+        <div class="pricing-row">
+          <span>Yearly</span>
+          <span>$120/yr per seat</span>
+        </div>
+      </div>
+      <button class="close-btn" id="closePaywall">Close</button>
+    </div>
+  </div>
+
+  <script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
+    const status = document.getElementById('status');
+    const outputSection = document.getElementById('outputSection');
+    const copyBtn = document.getElementById('copyBtn');
+    const paywallModal = document.getElementById('paywallModal');
+    const closePaywall = document.getElementById('closePaywall');
+
+    let compiledSvgOutput = '';
+
+    const MAX_FREE_SIZE = 15 * 1024 * 1024;
+
+    function updateStatus(text, type = '') {
+      status.textContent = text;
+      status.className = 'status ' + type;
+    }
+
+    function triggerPaywallModal() {
+      paywallModal.classList.add('visible');
+    }
+
+    closePaywall.addEventListener('click', () => {
+      paywallModal.classList.remove('visible');
+    });
+
+    dropZone.addEventListener('click', () => {
+      fileInput.click();
+    });
+
+    dropZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropZone.classList.add('drag-over');
+    });
+
+    dropZone.addEventListener('dragleave', () => {
+      dropZone.classList.remove('drag-over');
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('drag-over');
+      const files = e.dataTransfer.files;
+      if (files.length > 0) {
+        handleFile(files[0]);
+      }
+    });
+
+    fileInput.addEventListener('change', (e) => {
+      if (e.target.files.length > 0) {
+        handleFile(e.target.files[0]);
+      }
+    });
+
+    async function handleFile(file) {
+      if (file.type !== 'application/pdf') {
+        updateStatus('Please select a PDF file', 'error');
+        return;
+      }
+
+      if (file.size > MAX_FREE_SIZE) {
+        triggerPaywallModal();
+        return;
+      }
+
+      updateStatus('Initializing layer isolation...', 'processing');
+      outputSection.classList.remove('visible');
+
+      try {
+        const arrayBuffer = await file.arrayBuffer();
+        const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+        
+        compiledSvgOutput = '';
+        const totalPages = pdf.numPages;
+
+        for (let i = 1; i <= totalPages; i++) {
+          updateStatus(`Extracting vector paths... Page ${i}/${totalPages}`, 'processing');
+          
+          const page = await pdf.getPage(i);
+          const opList = await page.getOperatorList();
+          const svgGfx = new pdfjsLib.SVGGraphics(page.commonObjs, page.objs);
+          const svgElement = await svgGfx.getSVG(opList, page.getViewport({ scale: 1.0 }));
+          
+          compiledSvgOutput += new XMLSerializer().serializeToString(svgElement);
+        }
+
+        updateStatus('Compiling SVG definitions...', 'processing');
+        
+        setTimeout(() => {
+          updateStatus('Layers isolated. Ready to paste into Figma.', 'success');
+          outputSection.classList.add('visible');
+        }, 500);
+
+      } catch (error) {
+        console.error('Extraction error:', error);
+        updateStatus('File structure optimization required.', 'error');
+      }
+    }
+
+    copyBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(compiledSvgOutput);
+        copyBtn.textContent = 'Copied to Clipboard';
+        copyBtn.classList.add('copied');
+        
+        setTimeout(() => {
+          copyBtn.textContent = 'Copy SVG Vector Data to Clipboard';
+          copyBtn.classList.remove('copied');
+        }, 2000);
+      } catch (error) {
+        console.error('Copy failed:', error);
+        updateStatus('Failed to copy to clipboard', 'error');
+      }
+    });
+  </script>
+</body>
+</html>
