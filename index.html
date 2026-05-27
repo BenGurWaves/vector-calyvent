@@ -4,8 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>VECTOR — PDF to Figma Vectors</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@300;400&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <style>
     * {
@@ -16,178 +17,235 @@
 
     :root {
       --canvas-base: #121214;
-      --card-base: #1C1C1E;
       --text-primary: #F4F4F5;
       --text-secondary: #A1A1AA;
-      --border-active: #3F3F46;
-      --brass: #B89766;
-      --brass-dark: #8A6E3B;
+      --accent: #B89766;
+      --border: 1px solid rgba(244, 244, 245, 0.08);
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       background: var(--canvas-base);
       color: var(--text-primary);
-      overflow: hidden;
-      cursor: none;
+      line-height: 1.6;
+      min-height: 100vh;
     }
 
-    #canvas-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 1;
-    }
-
-    .cursor {
-      position: fixed;
-      pointer-events: none;
-      z-index: 9999;
-      mix-blend-mode: difference;
-    }
-
-    .cursor-tongs {
-      width: 40px;
-      height: 40px;
-      border: 2px solid var(--text-primary);
-      border-radius: 50%;
-      position: relative;
-      transition: transform 0.1s ease;
-    }
-
-    .cursor-tongs::before,
-    .cursor-tongs::after {
-      content: '';
-      position: absolute;
-      width: 2px;
-      height: 12px;
-      background: var(--text-primary);
-      top: 50%;
-      transform: translateY(-50%);
-    }
-
-    .cursor-tongs::before {
-      left: -4px;
-    }
-
-    .cursor-tongs::after {
-      right: -4px;
-    }
-
-    .cursor-tongs.gripping {
-      transform: scale(0.9);
-    }
-
-    .cursor-tongs.gripping::before {
-      transform: translateY(-50%) rotate(15deg);
-    }
-
-    .cursor-tongs.gripping::after {
-      transform: translateY(-50%) rotate(-15deg);
-    }
-
-    .ui-layer {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 10;
-      pointer-events: none;
-    }
-
-    .brand-mark {
+    .corner-frame {
       position: fixed;
       top: 2rem;
       left: 2rem;
-      font-size: 0.7rem;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      font-weight: 300;
-      opacity: 0.6;
-      pointer-events: auto;
-    }
-
-    .brand-mark a {
-      color: var(--text-primary);
-      text-decoration: none;
-      transition: opacity 0.3s ease;
-    }
-
-    .brand-mark a:hover {
-      opacity: 1;
-    }
-
-    .legal-plates {
-      position: fixed;
+      right: 2rem;
       bottom: 2rem;
-      left: 2rem;
-      display: flex;
-      gap: 2rem;
-      pointer-events: auto;
+      pointer-events: none;
+      z-index: 10;
     }
 
-    .legal-plate {
+    .corner-frame::before,
+    .corner-frame::after {
+      content: '';
+      position: absolute;
+      background: var(--border);
+    }
+
+    .corner-frame::before {
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+    }
+
+    .corner-frame::after {
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 1px;
+    }
+
+    .metadata {
+      position: fixed;
+      top: 2.5rem;
+      left: 2.5rem;
       font-size: 0.65rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--text-secondary);
-      cursor: pointer;
-      transition: all 0.3s ease;
-      opacity: 0.4;
+      z-index: 11;
     }
 
-    .legal-plate:hover {
-      opacity: 1;
-      color: var(--brass);
-    }
-
-    .status-display {
+    .metadata-right {
       position: fixed;
-      bottom: 2rem;
-      right: 2rem;
-      font-family: 'SF Mono', 'Monaco', 'Inconsolata', monospace;
-      font-size: 0.75rem;
-      color: var(--text-secondary);
-      opacity: 0.6;
-      text-align: right;
-    }
-
-    .loader {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: var(--canvas-base);
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-    }
-
-    .loader-text {
-      font-size: 0.7rem;
-      letter-spacing: 0.25em;
+      top: 2.5rem;
+      right: 2.5rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--text-secondary);
-      margin-top: 1rem;
+      text-align: right;
+      z-index: 11;
     }
 
-    .loader-ring {
+    .status-corner {
+      position: fixed;
+      bottom: 2.5rem;
+      right: 2.5rem;
+      font-family: 'Inter', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.05em;
+      color: var(--text-secondary);
+      z-index: 11;
+    }
+
+    .legal-corner {
+      position: fixed;
+      bottom: 2.5rem;
+      left: 2.5rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      z-index: 11;
+    }
+
+    .legal-corner a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      margin-right: 2rem;
+      transition: color 0.3s ease;
+    }
+
+    .legal-corner a:hover {
+      color: var(--accent);
+    }
+
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 12rem 2rem 8rem;
+    }
+
+    .masthead {
+      margin-bottom: 8rem;
+    }
+
+    .masthead h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(4rem, 12vw, 8rem);
+      letter-spacing: -0.02em;
+      line-height: 0.9;
+      margin-bottom: 1rem;
+    }
+
+    .masthead .divider {
       width: 60px;
-      height: 60px;
-      border: 1px solid var(--border-active);
-      border-top-color: var(--brass);
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
+      height: 1px;
+      background: var(--accent);
+      margin: 2rem 0;
     }
 
-    @keyframes spin {
-      to { transform: rotate(360deg); }
+    .masthead p {
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+
+    .drop-section {
+      padding: 4rem 0;
+      border-top: var(--border);
+      border-bottom: var(--border);
+      margin: 4rem 0;
+      transition: all 0.5s ease;
+    }
+
+    .drop-section.drag-over {
+      background: rgba(184, 151, 102, 0.03);
+    }
+
+    .drop-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+      transition: color 0.3s ease;
+    }
+
+    .drop-section.drag-over .drop-label {
+      color: var(--accent);
+    }
+
+    .drop-sublabel {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      opacity: 0.5;
+    }
+
+    .processing-log {
+      margin: 4rem 0;
+      font-family: 'Inter', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+      color: var(--text-secondary);
+      min-height: 100px;
+    }
+
+    .processing-log .line {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.4s ease;
+      margin-bottom: 0.5rem;
+    }
+
+    .processing-log .line.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .processing-log .line.active {
+      color: var(--accent);
+    }
+
+    .output-section {
+      margin: 4rem 0;
+      padding: 4rem 0;
+      border-top: var(--border);
+      display: none;
+    }
+
+    .output-section.visible {
+      display: block;
+    }
+
+    .copy-button {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-primary);
+      background: transparent;
+      border: 1px solid var(--text-secondary);
+      padding: 1.25rem 2.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .copy-button:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .copy-button.copied {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: var(--canvas-base);
     }
 
     .modal {
@@ -196,31 +254,46 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(18, 18, 20, 0.95);
-      z-index: 50;
+      background: var(--canvas-base);
+      z-index: 100;
       display: none;
-      align-items: center;
-      justify-content: center;
-      pointer-events: auto;
+      overflow-y: auto;
     }
 
     .modal.visible {
-      display: flex;
+      display: block;
     }
 
     .modal-content {
-      max-width: 600px;
-      padding: 3rem;
+      max-width: 580px;
+      margin: 0 auto;
+      padding: 8rem 2rem;
+    }
+
+    .modal-close {
+      position: fixed;
+      top: 2.5rem;
+      right: 2.5rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      cursor: pointer;
+      z-index: 101;
+      transition: color 0.3s ease;
+    }
+
+    .modal-close:hover {
       color: var(--text-primary);
     }
 
     .modal-content h2 {
-      font-size: 1.5rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 5vw, 3rem);
       font-weight: 300;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      margin-bottom: 2rem;
-      color: var(--brass);
+      letter-spacing: -0.01em;
+      margin-bottom: 3rem;
+      color: var(--accent);
     }
 
     .modal-content p {
@@ -230,37 +303,21 @@
       margin-bottom: 1.5rem;
     }
 
-    .modal-close {
-      position: absolute;
-      top: 2rem;
-      right: 2rem;
-      font-size: 0.7rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--text-secondary);
-      cursor: pointer;
-      transition: color 0.3s ease;
-    }
-
-    .modal-close:hover {
-      color: var(--text-primary);
-    }
-
     .paywall-content {
       text-align: center;
     }
 
     .paywall-content .pricing {
-      margin: 2rem 0;
+      margin: 3rem 0;
       padding: 2rem;
-      border: 1px solid var(--border-active);
+      border: var(--border);
     }
 
     .paywall-content .pricing-row {
       display: flex;
       justify-content: space-between;
       margin-bottom: 1rem;
-      font-size: 0.95rem;
+      font-size: 0.85rem;
       letter-spacing: 0.05em;
     }
 
@@ -271,18 +328,18 @@
     .paywall-content .cta {
       margin-top: 2rem;
       padding: 1rem 2rem;
-      background: var(--brass);
+      background: var(--accent);
       border: none;
       color: var(--canvas-base);
-      font-size: 0.85rem;
-      letter-spacing: 0.1em;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
       text-transform: uppercase;
       cursor: pointer;
       transition: all 0.3s ease;
     }
 
     .paywall-content .cta:hover {
-      background: var(--brass-dark);
+      opacity: 0.8;
     }
 
     input[type="file"] {
@@ -290,68 +347,84 @@
     }
 
     @media (max-width: 768px) {
-      .brand-mark {
-        top: 1rem;
-        left: 1rem;
-        font-size: 0.6rem;
+      .corner-frame {
+        top: 1.5rem;
+        left: 1.5rem;
+        right: 1.5rem;
+        bottom: 1.5rem;
       }
 
-      .legal-plates {
-        bottom: 1rem;
-        left: 1rem;
-        gap: 1rem;
-      }
-
-      .legal-plate {
+      .metadata,
+      .metadata-right,
+      .status-corner,
+      .legal-corner {
         font-size: 0.55rem;
       }
 
-      .status-display {
-        bottom: 1rem;
-        right: 1rem;
-        font-size: 0.65rem;
+      .metadata { top: 2rem; left: 2rem; }
+      .metadata-right { top: 2rem; right: 2rem; }
+      .status-corner { bottom: 2rem; right: 2rem; }
+      .legal-corner { bottom: 2rem; left: 2rem; }
+
+      .container {
+        padding: 8rem 1.5rem 6rem;
+      }
+
+      .masthead {
+        margin-bottom: 6rem;
       }
 
       .modal-content {
-        padding: 2rem;
-        max-width: 90%;
+        padding: 6rem 1.5rem;
       }
     }
   </style>
 </head>
 <body>
-  <div class="loader" id="loader">
-    <div class="loader-ring"></div>
-    <div class="loader-text">Initializing Forge</div>
+  <div class="corner-frame"></div>
+
+  <div class="metadata">
+    <span>VECTOR</span>
   </div>
 
-  <div id="canvas-container"></div>
-
-  <div class="cursor">
-    <div class="cursor-tongs" id="cursorTongs"></div>
+  <div class="metadata-right">
+    <span id="timestamp"></span>
   </div>
 
-  <div class="ui-layer">
-    <div class="brand-mark">
-      <a href="#">VECTOR</a>
-    </div>
-
-    <div class="legal-plates">
-      <div class="legal-plate" id="termsBtn">Terms</div>
-      <div class="legal-plate" id="privacyBtn">Privacy</div>
-    </div>
-
-    <div class="status-display" id="statusDisplay">
-      Forge Idle
-    </div>
+  <div class="status-corner" id="statusCorner">
+    Idle
   </div>
 
-  <input type="file" id="fileInput" accept=".pdf">
+  <div class="legal-corner">
+    <a href="#" id="termsLink">Terms</a>
+    <a href="#" id="privacyLink">Privacy</a>
+  </div>
+
+  <div class="container">
+    <div class="masthead">
+      <h1>Vector</h1>
+      <div class="divider"></div>
+      <p>PDF to Figma Extraction</p>
+    </div>
+
+    <div class="drop-section" id="dropSection">
+      <div class="drop-label">Inscribe your document</div>
+      <div class="drop-sublabel">Drag PDF or click to select · Max 15MB</div>
+    </div>
+
+    <input type="file" id="fileInput" accept=".pdf">
+
+    <div class="processing-log" id="processingLog"></div>
+
+    <div class="output-section" id="outputSection">
+      <button class="copy-button" id="copyButton">Copy Vector Data</button>
+    </div>
+  </div>
 
   <div class="modal" id="termsModal">
     <div class="modal-close" id="closeTerms">Close</div>
     <div class="modal-content">
-      <h2>Terms of Service</h2>
+      <h2>Terms</h2>
       <p>By using VECTOR, you agree to process PDF files entirely within your browser. No data is transmitted to external servers. The 15MB free tier limit applies to local processing. Larger files require a paid subscription.</p>
       <p>VECTOR provides PDF-to-SVG extraction as-is. We make no guarantees about the quality or accuracy of extracted vectors. Use at your own risk for commercial projects.</p>
       <p>Paid subscriptions are billed monthly or annually. Cancellation takes effect at the end of the current billing period. No refunds for partial months.</p>
@@ -361,7 +434,7 @@
   <div class="modal" id="privacyModal">
     <div class="modal-close" id="closePrivacy">Close</div>
     <div class="modal-content">
-      <h2>Privacy Policy</h2>
+      <h2>Privacy</h2>
       <p>VECTOR processes all PDF files client-side in your browser. Your files never leave your device. We do not collect, store, or transmit any file data.</p>
       <p>We use Cloudflare Pages for hosting. Cloudflare may collect standard analytics data. We do not use third-party tracking services.</p>
       <p>Payment processing is handled through Stripe. We do not store or have access to your full payment details—only the last 4 digits for receipt purposes.</p>
@@ -372,7 +445,7 @@
     <div class="modal-close" id="closePaywall">Close</div>
     <div class="modal-content paywall-content">
       <h2>Capacity Exceeded</h2>
-      <p>Your PDF exceeds the 15MB free tier limit. Upgrade to process larger files in the forge.</p>
+      <p>Your PDF exceeds the 15MB free tier limit. Upgrade to process larger files.</p>
       <div class="pricing">
         <div class="pricing-row">
           <span>Monthly</span>
@@ -390,364 +463,88 @@
   <script>
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-    // Three.js Setup
-    let scene, camera, renderer;
-    let forgeGroup, intakeAperture, pdfBlock, vectorSpool;
-    let layers = [];
-    let isProcessing = false;
-    let mouseX = 0, mouseY = 0;
-    let targetRotationX = 0, targetRotationY = 0;
-
     const MAX_FREE_SIZE = 15 * 1024 * 1024;
     let compiledSvgOutput = '';
 
-    function init() {
-      scene = new THREE.Scene();
-      scene.fog = new THREE.FogExp2(0x121214, 0.02);
-
-      camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-      camera.position.z = 5;
-
-      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      renderer.shadowMap.enabled = true;
-      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-      document.getElementById('canvas-container').appendChild(renderer.domElement);
-
-      // Lighting
-      const ambientLight = new THREE.AmbientLight(0x404040, 0.5);
-      scene.add(ambientLight);
-
-      const mainLight = new THREE.DirectionalLight(0xffffff, 1);
-      mainLight.position.set(5, 10, 7);
-      mainLight.castShadow = true;
-      mainLight.shadow.mapSize.width = 2048;
-      mainLight.shadow.mapSize.height = 2048;
-      scene.add(mainLight);
-
-      const rimLight = new THREE.PointLight(0xB89766, 0.8, 20);
-      rimLight.position.set(-5, 5, -5);
-      scene.add(rimLight);
-
-      const fillLight = new THREE.PointLight(0x3F3F46, 0.3, 15);
-      fillLight.position.set(5, -5, 5);
-      scene.add(fillLight);
-
-      // Create Forge Environment
-      createForge();
-      createIntakeAperture();
-      createVectorSpool();
-
-      // Living Texture - Volumetric Dust
-      createVolumetricDust();
-
-      // Event Listeners
-      window.addEventListener('resize', onWindowResize);
-      document.addEventListener('mousemove', onMouseMove);
-      document.addEventListener('touchmove', onTouchMove, { passive: false });
-
-      // File Drop
-      const canvasContainer = document.getElementById('canvas-container');
-      canvasContainer.addEventListener('dragover', onDragOver);
-      canvasContainer.addEventListener('dragleave', onDragLeave);
-      canvasContainer.addEventListener('drop', onDrop);
-      canvasContainer.addEventListener('click', () => document.getElementById('fileInput').click());
-
-      document.getElementById('fileInput').addEventListener('change', onFileSelect);
-
-      // Modals
-      setupModals();
-
-      // Hide Loader
-      setTimeout(() => {
-        gsap.to('#loader', { opacity: 0, duration: 1, onComplete: () => {
-          document.getElementById('loader').style.display = 'none';
-        }});
-      }, 1500);
-
-      animate();
+    // Update timestamp
+    function updateTimestamp() {
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      document.getElementById('timestamp').textContent = `${hours}:${minutes}`;
     }
+    updateTimestamp();
+    setInterval(updateTimestamp, 60000);
 
-    function createForge() {
-      forgeGroup = new THREE.Group();
+    // Update mouse coordinates
+    document.addEventListener('mousemove', (e) => {
+      const x = Math.round((e.clientX / window.innerWidth) * 100);
+      const y = Math.round((e.clientY / window.innerHeight) * 100);
+      document.getElementById('statusCorner').textContent = `Idle · ${x}% · ${y}%`;
+    });
 
-      // Floor
-      const floorGeometry = new THREE.PlaneGeometry(50, 50);
-      const floorMaterial = new THREE.MeshStandardMaterial({
-        color: 0x1C1C1E,
-        roughness: 0.8,
-        metalness: 0.2
-      });
-      const floor = new THREE.Mesh(floorGeometry, floorMaterial);
-      floor.rotation.x = -Math.PI / 2;
-      floor.position.y = -2;
-      floor.receiveShadow = true;
-      forgeGroup.add(floor);
+    const dropSection = document.getElementById('dropSection');
+    const fileInput = document.getElementById('fileInput');
+    const processingLog = document.getElementById('processingLog');
+    const outputSection = document.getElementById('outputSection');
+    const copyButton = document.getElementById('copyButton');
+    const statusCorner = document.getElementById('statusCorner');
 
-      // Walls
-      const wallMaterial = new THREE.MeshStandardMaterial({
-        color: 0x121214,
-        roughness: 0.9,
-        metalness: 0.1
-      });
-
-      const backWall = new THREE.Mesh(new THREE.PlaneGeometry(30, 10), wallMaterial);
-      backWall.position.z = -5;
-      backWall.position.y = 3;
-      backWall.receiveShadow = true;
-      forgeGroup.add(backWall);
-
-      // Industrial Pipes
-      const pipeMaterial = new THREE.MeshStandardMaterial({
-        color: 0x3F3F46,
-        roughness: 0.4,
-        metalness: 0.8
-      });
-
-      for (let i = 0; i < 5; i++) {
-        const pipe = new THREE.Mesh(
-          new THREE.CylinderGeometry(0.1, 0.1, 8, 16),
-          pipeMaterial
-        );
-        pipe.position.set(-8 + i * 4, 2, -4.5);
-        pipe.castShadow = true;
-        forgeGroup.add(pipe);
-      }
-
-      scene.add(forgeGroup);
-    }
-
-    function createIntakeAperture() {
-      intakeAperture = new THREE.Group();
-
-      // Outer Ring
-      const ringGeometry = new THREE.TorusGeometry(1.5, 0.15, 16, 32);
-      const ringMaterial = new THREE.MeshStandardMaterial({
-        color: 0xB89766,
-        roughness: 0.3,
-        metalness: 0.9
-      });
-      const outerRing = new THREE.Mesh(ringGeometry, ringMaterial);
-      outerRing.castShadow = true;
-      intakeAperture.add(outerRing);
-
-      // Inner Ring
-      const innerRing = new THREE.Mesh(
-        new THREE.TorusGeometry(1.2, 0.08, 16, 32),
-        ringMaterial
-      );
-      innerRing.castShadow = true;
-      intakeAperture.add(innerRing);
-
-      // Aperture Blades
-      const bladeMaterial = new THREE.MeshStandardMaterial({
-        color: 0x3F3F46,
-        roughness: 0.4,
-        metalness: 0.7
-      });
-
-      for (let i = 0; i < 8; i++) {
-        const blade = new THREE.Mesh(
-          new THREE.BoxGeometry(0.4, 0.8, 0.05),
-          bladeMaterial
-        );
-        blade.position.x = Math.cos(i * Math.PI / 4) * 0.8;
-        blade.position.y = Math.sin(i * Math.PI / 4) * 0.8;
-        blade.rotation.z = i * Math.PI / 4;
-        blade.castShadow = true;
-        intakeAperture.add(blade);
-      }
-
-      intakeAperture.position.z = 0;
-      scene.add(intakeAperture);
-    }
-
-    function createVectorSpool() {
-      vectorSpool = new THREE.Group();
-
-      // Spool Core
-      const coreGeometry = new THREE.CylinderGeometry(0.3, 0.3, 1, 32);
-      const coreMaterial = new THREE.MeshStandardMaterial({
-        color: 0xB89766,
-        roughness: 0.3,
-        metalness: 0.9
-      });
-      const core = new THREE.Mesh(coreGeometry, coreMaterial);
-      core.rotation.z = Math.PI / 2;
-      core.castShadow = true;
-      vectorSpool.add(core);
-
-      // Vector Filament (Glowing Coil)
-      const filamentGeometry = new THREE.TorusGeometry(0.5, 0.05, 16, 64);
-      const filamentMaterial = new THREE.MeshStandardMaterial({
-        color: 0x4a7e8c,
-        roughness: 0.2,
-        metalness: 0.8,
-        emissive: 0x4a7e8c,
-        emissiveIntensity: 0.5
-      });
-      const filament = new THREE.Mesh(filamentGeometry, filamentMaterial);
-      filament.rotation.y = Math.PI / 2;
-      filament.castShadow = true;
-      vectorSpool.add(filament);
-
-      vectorSpool.position.set(0, -1, 2);
-      vectorSpool.visible = false;
-      scene.add(vectorSpool);
-    }
-
-    function createVolumetricDust() {
-      const dustGeometry = new THREE.BufferGeometry();
-      const dustCount = 500;
-      const positions = new Float32Array(dustCount * 3);
-
-      for (let i = 0; i < dustCount; i++) {
-        positions[i * 3] = (Math.random() - 0.5) * 20;
-        positions[i * 3 + 1] = (Math.random() - 0.5) * 10;
-        positions[i * 3 + 2] = (Math.random() - 0.5) * 20;
-      }
-
-      dustGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-
-      const dustMaterial = new THREE.PointsMaterial({
-        color: 0xB89766,
-        size: 0.02,
-        transparent: true,
-        opacity: 0.3
-      });
-
-      const dust = new THREE.Points(dustGeometry, dustMaterial);
-      scene.add(dust);
-    }
-
-    function createPDFBlock() {
-      if (pdfBlock) {
-        scene.remove(pdfBlock);
-      }
-
-      pdfBlock = new THREE.Group();
-
-      const blockGeometry = new THREE.BoxGeometry(1.5, 2, 0.2);
-      const blockMaterial = new THREE.MeshStandardMaterial({
-        color: 0xF4F4F5,
-        roughness: 0.6,
-        metalness: 0.1
-      });
-      const block = new THREE.Mesh(blockGeometry, blockMaterial);
-      block.castShadow = true;
-      pdfBlock.add(block);
-
-      pdfBlock.position.set(0, 0, 3);
-      pdfBlock.visible = false;
-      scene.add(pdfBlock);
-    }
-
-    function createLayers(count) {
-      // Clear existing layers
-      layers.forEach(layer => scene.remove(layer));
-      layers = [];
-
-      const layerMaterial = new THREE.MeshStandardMaterial({
-        color: 0x4a7e8c,
-        roughness: 0.3,
-        metalness: 0.7,
-        emissive: 0x4a7e8c,
-        emissiveIntensity: 0,
-        transparent: true,
-        opacity: 0.8
-      });
-
-      for (let i = 0; i < count; i++) {
-        const layer = new THREE.Mesh(
-          new THREE.BoxGeometry(1.5, 2, 0.02),
-          layerMaterial.clone()
-        );
-        layer.position.set(0, 0, 3 - i * 0.1);
-        layer.visible = false;
-        layer.castShadow = true;
-        scene.add(layer);
-        layers.push(layer);
-      }
-    }
-
-    function onWindowResize() {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    }
-
-    function onMouseMove(event) {
-      mouseX = (event.clientX / window.innerWidth) * 2 - 1;
-      mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
-
-      // Update cursor
-      const cursor = document.querySelector('.cursor');
-      cursor.style.left = event.clientX + 'px';
-      cursor.style.top = event.clientY + 'px';
-
-      // Camera parallax
-      targetRotationY = mouseX * 0.1;
-      targetRotationX = mouseY * 0.05;
-    }
-
-    function onTouchMove(event) {
-      event.preventDefault();
-      if (event.touches.length > 0) {
-        const touch = event.touches[0];
-        mouseX = (touch.clientX / window.innerWidth) * 2 - 1;
-        mouseY = -(touch.clientY / window.innerHeight) * 2 + 1;
-
-        const cursor = document.querySelector('.cursor');
-        cursor.style.left = touch.clientX + 'px';
-        cursor.style.top = touch.clientY + 'px';
-
-        targetRotationY = mouseX * 0.1;
-        targetRotationX = mouseY * 0.05;
-      }
-    }
-
-    function onDragOver(event) {
-      event.preventDefault();
-      document.getElementById('cursorTongs').classList.add('gripping');
-      updateStatus('Feed Material to Forge');
+    function addLogLine(text, active = false) {
+      const line = document.createElement('div');
+      line.className = 'line' + (active ? ' active' : '');
+      line.textContent = text;
+      processingLog.appendChild(line);
       
-      // Animate aperture
-      gsap.to(intakeAperture.scale, { x: 1.2, y: 1.2, duration: 0.3 });
-    }
-
-    function onDragLeave(event) {
-      event.preventDefault();
-      document.getElementById('cursorTongs').classList.remove('gripping');
-      updateStatus('Forge Idle');
+      setTimeout(() => line.classList.add('visible'), 50);
       
-      gsap.to(intakeAperture.scale, { x: 1, y: 1, duration: 0.3 });
-    }
-
-    function onDrop(event) {
-      event.preventDefault();
-      document.getElementById('cursorTongs').classList.remove('gripping');
-      gsap.to(intakeAperture.scale, { x: 1, y: 1, duration: 0.3 });
-
-      const files = event.dataTransfer.files;
-      if (files.length > 0) {
-        processFile(files[0]);
+      if (active) {
+        const prevActive = processingLog.querySelector('.line.active:not(:last-child)');
+        if (prevActive) prevActive.classList.remove('active');
       }
     }
 
-    function onFileSelect(event) {
-      if (event.target.files.length > 0) {
-        processFile(event.target.files[0]);
-      }
+    function clearLog() {
+      processingLog.innerHTML = '';
     }
 
     function updateStatus(text) {
-      document.getElementById('statusDisplay').textContent = text;
+      statusCorner.textContent = text;
     }
+
+    dropSection.addEventListener('click', () => {
+      fileInput.click();
+    });
+
+    dropSection.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropSection.classList.add('drag-over');
+      updateStatus('Ready to receive');
+    });
+
+    dropSection.addEventListener('dragleave', () => {
+      dropSection.classList.remove('drag-over');
+      updateStatus('Idle');
+    });
+
+    dropSection.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropSection.classList.remove('drag-over');
+      const files = e.dataTransfer.files;
+      if (files.length > 0) {
+        processFile(files[0]);
+      }
+    });
+
+    fileInput.addEventListener('change', (e) => {
+      if (e.target.files.length > 0) {
+        processFile(e.target.files[0]);
+      }
+    });
 
     async function processFile(file) {
       if (file.type !== 'application/pdf') {
-        updateStatus('Invalid Material Type');
+        updateStatus('Invalid file type');
         return;
       }
 
@@ -756,52 +553,16 @@
         return;
       }
 
-      isProcessing = true;
-      updateStatus('Feeding Material...');
+      clearLog();
+      outputSection.classList.remove('visible');
+      updateStatus('Processing');
 
-      // Create and animate PDF block
-      createPDFBlock();
-      pdfBlock.visible = true;
-      
-      gsap.from(pdfBlock.position, {
-        z: 10,
-        duration: 1.5,
-        ease: 'power2.inOut'
-      });
+      addLogLine('Initializing extraction', true);
+      await new Promise(r => setTimeout(r, 300));
 
-      // Wait for block to reach aperture
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      addLogLine('Loading document structure', true);
+      await new Promise(r => setTimeout(r, 300));
 
-      updateStatus('Deconstructing Layers...');
-
-      // Create layers
-      const layerCount = Math.min(Math.ceil(file.size / 100000), 10);
-      createLayers(layerCount);
-
-      // Animate block descending and layers separating
-      gsap.to(pdfBlock.position, {
-        z: -2,
-        duration: 2,
-        ease: 'power2.inOut',
-        onComplete: () => {
-          pdfBlock.visible = false;
-        }
-      });
-
-      // Reveal layers one by one
-      for (let i = 0; i < layers.length; i++) {
-        await new Promise(resolve => setTimeout(resolve, 200));
-        layers[i].visible = true;
-        gsap.to(layers[i].material, {
-          emissiveIntensity: 0.5,
-          duration: 0.5
-        });
-        updateStatus(`Isolating Layer ${i + 1}/${layers.length}...`);
-      }
-
-      updateStatus('Compiling Vector Filament...');
-
-      // Actual PDF processing
       try {
         const arrayBuffer = await file.arrayBuffer();
         const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
@@ -809,133 +570,79 @@
         compiledSvgOutput = '';
         const totalPages = pdf.numPages;
 
+        addLogLine(`Document loaded · ${totalPages} page${totalPages > 1 ? 's' : ''}`, true);
+        await new Promise(r => setTimeout(r, 300));
+
         for (let i = 1; i <= totalPages; i++) {
+          addLogLine(`Extracting layer ${i}/${totalPages}`, true);
+          
           const page = await pdf.getPage(i);
           const opList = await page.getOperatorList();
           const svgGfx = new pdfjsLib.SVGGraphics(page.commonObjs, page.objs);
           const svgElement = await svgGfx.getSVG(opList, page.getViewport({ scale: 1.0 }));
-          compiledSvgOutput += new XMLSerializer().serializeToString(svgElement);
-        }
-
-        // Animate layers converging to spool
-        await new Promise(resolve => setTimeout(resolve, 500));
-
-        for (let i = 0; i < layers.length; i++) {
-          gsap.to(layers[i].position, {
-            x: 0,
-            y: -1,
-            z: 2,
-            duration: 0.5,
-            delay: i * 0.1,
-            ease: 'power2.inOut'
-          });
-        }
-
-        await new Promise(resolve => setTimeout(resolve, 1000));
-
-        // Hide layers, show spool
-        layers.forEach(layer => layer.visible = false);
-        vectorSpool.visible = true;
-        vectorSpool.rotation.x = 0;
-
-        // Animate spool glowing
-        gsap.to(vectorSpool.children[1].material, {
-          emissiveIntensity: 1,
-          duration: 1
-        });
-
-        // Rotate spool
-        gsap.to(vectorSpool.rotation, {
-          x: Math.PI * 4,
-          duration: 3,
-          ease: 'power2.out'
-        });
-
-        updateStatus('Vector Filament Ready — Click to Collect');
-
-        // Enable click to collect
-        const canvasContainer = document.getElementById('canvas-container');
-        const collectHandler = async () => {
-          canvasContainer.removeEventListener('click', collectHandler);
           
-          try {
-            await navigator.clipboard.writeText(compiledSvgOutput);
-            updateStatus('Filament Collected — Paste in Figma');
-            
-            gsap.to(vectorSpool.scale, {
-              x: 0,
-              y: 0,
-              z: 0,
-              duration: 0.5,
-              onComplete: () => {
-                vectorSpool.visible = false;
-                vectorSpool.scale.set(1, 1, 1);
-                isProcessing = false;
-                updateStatus('Forge Idle');
-              }
-            });
-          } catch (error) {
-            updateStatus('Collection Failed');
-          }
-        };
+          compiledSvgOutput += new XMLSerializer().serializeToString(svgElement);
+          await new Promise(r => setTimeout(r, 200));
+        }
 
-        canvasContainer.addEventListener('click', collectHandler);
+        addLogLine('Compiling vector data', true);
+        await new Promise(r => setTimeout(r, 400));
+
+        addLogLine('Extraction complete');
+        updateStatus('Complete');
+        outputSection.classList.add('visible');
 
       } catch (error) {
         console.error('Processing error:', error);
-        updateStatus('Processing Error');
-        isProcessing = false;
+        addLogLine('Extraction failed');
+        updateStatus('Error');
       }
     }
 
-    function setupModals() {
-      document.getElementById('termsBtn').addEventListener('click', () => {
-        document.getElementById('termsModal').classList.add('visible');
-      });
-
-      document.getElementById('privacyBtn').addEventListener('click', () => {
-        document.getElementById('privacyModal').classList.add('visible');
-      });
-
-      document.getElementById('closeTerms').addEventListener('click', () => {
-        document.getElementById('termsModal').classList.remove('visible');
-      });
-
-      document.getElementById('closePrivacy').addEventListener('click', () => {
-        document.getElementById('privacyModal').classList.remove('visible');
-      });
-
-      document.getElementById('closePaywall').addEventListener('click', () => {
-        document.getElementById('paywallModal').classList.remove('visible');
-      });
-
-      document.getElementById('upgradeBtn').addEventListener('click', () => {
-        // Stripe integration would go here
-        alert('Upgrade flow — Stripe integration pending');
-      });
-    }
-
-    function animate() {
-      requestAnimationFrame(animate);
-
-      // Smooth camera movement
-      camera.rotation.y += (targetRotationY - camera.rotation.y) * 0.05;
-      camera.rotation.x += (targetRotationX - camera.rotation.x) * 0.05;
-
-      // Animate intake aperture when idle
-      if (!isProcessing) {
-        intakeAperture.rotation.z += 0.002;
+    copyButton.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(compiledSvgOutput);
+        copyButton.textContent = 'Copied';
+        copyButton.classList.add('copied');
+        updateStatus('Copied to clipboard');
+        
+        setTimeout(() => {
+          copyButton.textContent = 'Copy Vector Data';
+          copyButton.classList.remove('copied');
+          updateStatus('Idle');
+        }, 2000);
+      } catch (error) {
+        console.error('Copy failed:', error);
+        updateStatus('Copy failed');
       }
+    });
 
-      // Animate vector spool when visible
-      if (vectorSpool.visible) {
-        vectorSpool.rotation.y += 0.01;
-      }
+    // Modals
+    document.getElementById('termsLink').addEventListener('click', (e) => {
+      e.preventDefault();
+      document.getElementById('termsModal').classList.add('visible');
+    });
 
-      renderer.render(scene, camera);
-    }
+    document.getElementById('privacyLink').addEventListener('click', (e) => {
+      e.preventDefault();
+      document.getElementById('privacyModal').classList.add('visible');
+    });
 
-    init();
+    document.getElementById('closeTerms').addEventListener('click', () => {
+      document.getElementById('termsModal').classList.remove('visible');
+    });
+
+    document.getElementById('closePrivacy').addEventListener('click', () => {
+      document.getElementById('privacyModal').classList.remove('visible');
+    });
+
+    document.getElementById('closePaywall').addEventListener('click', () => {
+      document.getElementById('paywallModal').classList.remove('visible');
+    });
+
+    document.getElementById('upgradeBtn').addEventListener('click', () => {
+      alert('Upgrade flow — Stripe integration pending');
+    });
   </script>
 </body>
 </html>
