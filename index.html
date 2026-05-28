@@ -1044,33 +1044,39 @@
       processingStatus.innerHTML = '';
     }
 
-    dropZone.addEventListener('click', () => {
-      fileInput.click();
-    });
+    // Drop zone click handler with null check
+    if (dropZone && fileInput) {
+      dropZone.addEventListener('click', () => {
+        console.log('Drop zone clicked');
+        fileInput.click();
+      });
 
-    dropZone.addEventListener('dragover', (e) => {
-      e.preventDefault();
-      dropZone.classList.add('drag-over');
-    });
+      dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('drag-over');
+      });
 
-    dropZone.addEventListener('dragleave', () => {
-      dropZone.classList.remove('drag-over');
-    });
+      dropZone.addEventListener('dragleave', () => {
+        dropZone.classList.remove('drag-over');
+      });
 
-    dropZone.addEventListener('drop', (e) => {
-      e.preventDefault();
-      dropZone.classList.remove('drag-over');
-      const files = e.dataTransfer.files;
-      if (files.length > 0) {
-        processFile(files[0]);
-      }
-    });
+      dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('drag-over');
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+          processFile(files[0]);
+        }
+      });
 
-    fileInput.addEventListener('change', (e) => {
-      if (e.target.files.length > 0) {
-        processFile(e.target.files[0]);
-      }
-    });
+      fileInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) {
+          processFile(e.target.files[0]);
+        }
+      });
+    } else {
+      console.error('Drop zone or file input not found');
+    }
 
     async function processFile(file) {
       if (file.type !== 'application/pdf') {
