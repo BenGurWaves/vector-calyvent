@@ -38,6 +38,7 @@
       line-height: 1.7;
       min-height: 100vh;
       position: relative;
+      cursor: none;
       overflow-x: hidden;
     }
 
@@ -124,7 +125,7 @@
     }
 
     /* Paper texture overlay */
-    /* body::before {
+    body::before {
       content: '';
       position: fixed;
       top: 0;
@@ -134,7 +135,7 @@
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
       pointer-events: none;
       z-index: 1;
-    } */
+    }
 
     .grid-container {
       display: grid;
@@ -583,7 +584,20 @@
   </style>
 </head>
 <body>
-  <div style="background: red; padding: 20px; color: white; font-size: 24px; position: fixed; top: 0; left: 0; z-index: 99999;">TEST - If you see this, the page is loading</div>
+  <div class="preloader">
+    <div class="preloader-text">Vector</div>
+    <div class="preloader-progress">
+      <div class="preloader-progress-bar"></div>
+    </div>
+  </div>
+
+  <div class="custom-cursor"></div>
+  <div class="cursor-dot"></div>
+  <canvas id="webgl-canvas"></canvas>
+
+  <div class="organic-shape organic-shape-1"></div>
+  <div class="organic-shape organic-shape-2"></div>
+
   <div class="grid-container">
     <div class="left-column">
       <div class="brand sage-accent">VECTOR</div>
@@ -972,6 +986,24 @@
     }
     animateWebGL();
 
+    // Preloader animation
+    const preloader = document.querySelector('.preloader');
+    const preloaderText = document.querySelector('.preloader-text');
+    const preloaderProgress = document.querySelector('.preloader-progress-bar');
+
+    gsap.to(preloaderText, { opacity: 1, duration: 0.5, delay: 0.2 });
+    gsap.to(preloaderProgress, { width: '100%', duration: 1.5, ease: 'power2.inOut', delay: 0.5 });
+    
+    gsap.to(preloader, {
+      yPercent: -100,
+      duration: 1,
+      ease: 'power4.inOut',
+      delay: 2.5,
+      onComplete: () => {
+        preloader.style.display = 'none';
+      }
+    });
+
     // PDF.js initialization
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
@@ -1123,37 +1155,58 @@
     });
 
     // Modals
-    document.getElementById('termsLink').addEventListener('click', (e) => {
-      e.preventDefault();
-      document.getElementById('termsModal').classList.add('visible');
-      lenis.stop();
-      document.body.style.overflow = 'auto';
-    });
+    const termsLink = document.getElementById('termsLink');
+    const privacyLink = document.getElementById('privacyLink');
+    const closeTerms = document.getElementById('closeTerms');
+    const closePrivacy = document.getElementById('closePrivacy');
+    const closePaywall = document.getElementById('closePaywall');
 
-    document.getElementById('privacyLink').addEventListener('click', (e) => {
-      e.preventDefault();
-      document.getElementById('privacyModal').classList.add('visible');
-      lenis.stop();
-      document.body.style.overflow = 'auto';
-    });
+    if (termsLink) {
+      termsLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        const modal = document.getElementById('termsModal');
+        if (modal) modal.classList.add('visible');
+        if (typeof lenis !== 'undefined') lenis.stop();
+        document.body.style.overflow = 'auto';
+      });
+    }
 
-    document.getElementById('closeTerms').addEventListener('click', () => {
-      document.getElementById('termsModal').classList.remove('visible');
-      lenis.start();
-      document.body.style.overflow = '';
-    });
+    if (privacyLink) {
+      privacyLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        const modal = document.getElementById('privacyModal');
+        if (modal) modal.classList.add('visible');
+        if (typeof lenis !== 'undefined') lenis.stop();
+        document.body.style.overflow = 'auto';
+      });
+    }
 
-    document.getElementById('closePrivacy').addEventListener('click', () => {
-      document.getElementById('privacyModal').classList.remove('visible');
-      lenis.start();
-      document.body.style.overflow = '';
-    });
+    if (closeTerms) {
+      closeTerms.addEventListener('click', () => {
+        const modal = document.getElementById('termsModal');
+        if (modal) modal.classList.remove('visible');
+        if (typeof lenis !== 'undefined') lenis.start();
+        document.body.style.overflow = '';
+      });
+    }
 
-    document.getElementById('closePaywall').addEventListener('click', () => {
-      document.getElementById('paywallModal').classList.remove('visible');
-      lenis.start();
-      document.body.style.overflow = '';
-    });
+    if (closePrivacy) {
+      closePrivacy.addEventListener('click', () => {
+        const modal = document.getElementById('privacyModal');
+        if (modal) modal.classList.remove('visible');
+        if (typeof lenis !== 'undefined') lenis.start();
+        document.body.style.overflow = '';
+      });
+    }
+
+    if (closePaywall) {
+      closePaywall.addEventListener('click', () => {
+        const modal = document.getElementById('paywallModal');
+        if (modal) modal.classList.remove('visible');
+        if (typeof lenis !== 'undefined') lenis.start();
+        document.body.style.overflow = '';
+      });
+    }
 
     document.getElementById('upgradeBtn').addEventListener('click', () => {
       alert('Upgrade flow — Stripe integration pending');
