@@ -713,42 +713,53 @@
       processingStatus.classList.add('visible');
 
       addStatusLine('Initializing extraction...', true);
-      await new Promise(r => setTimeout(r, 400));
-
-      addStatusLine('Loading document structure', true);
-      await new Promise(r => setTimeout(r, 400));
 
       try {
         const arrayBuffer = await file.arrayBuffer();
+        addStatusLine('Loading document structure', true);
+        
         const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
         
         compiledSvgOutput = '';
         const totalPages = pdf.numPages;
 
         addStatusLine(`Document loaded · ${totalPages} page${totalPages > 1 ? 's' : ''}`, true);
-        await new Promise(r => setTimeout(r, 400));
 
         for (let i = 1; i <= totalPages; i++) {
           addStatusLine(`Extracting layer ${i}/${totalPages}`, true);
           
-          const page = await pdf.getPage(i);
-          const opList = await page.getOperatorList();
-          const svgGfx = new pdfjsLib.SVGGraphics(page.commonObjs, page.objs);
-          const svgElement = await svgGfx.getSVG(opList, page.getViewport({ scale: 1.0 }));
-          
-          compiledSvgOutput += new XMLSerializer().serializeToString(svgElement);
-          await new Promise(r => setTimeout(r, 250));
+          try {
+            const page = await pdf.getPage(i);
+            const viewport = page.getViewport({ scale: 2.0 }); // Higher scale for better quality
+            const opList = await page.getOperatorList();
+            const svgGfx = new pdfjsLib.SVGGraphics(page.commonObjs, page.objs);
+            const svgElement = await svgGfx.getSVG(opList, viewport);
+            
+            const svgString = new XMLSerializer().serializeToString(svgElement);
+            
+            if (svgString && svgString.length > 0) {
+              compiledSvgOutput += svgString;
+            } else {
+              console.warn(`Empty SVG output for page ${i}`);
+            }
+          } catch (pageError) {
+            console.error(`Error processing page ${i}:`, pageError);
+            addStatusLine(`Error on page ${i} - skipping`);
+          }
+        }
+
+        if (compiledSvgOutput.length === 0) {
+          addStatusLine('No vector data extracted - PDF may be scanned images');
+          return;
         }
 
         addStatusLine('Compiling vector data', true);
-        await new Promise(r => setTimeout(r, 500));
-
         addStatusLine('Extraction complete');
         outputSection.classList.add('visible');
 
       } catch (error) {
         console.error('Processing error:', error);
-        addStatusLine('Extraction failed');
+        addStatusLine(`Extraction failed: ${error.message}`);
       }
     }
 
