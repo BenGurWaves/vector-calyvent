@@ -137,12 +137,11 @@
     }
 
     .grid-container {
-      display: grid;
+      display: none;
       grid-template-columns: 1fr 2fr 1fr;
       min-height: 100vh;
       position: relative;
       z-index: 2;
-      opacity: 0;
     }
 
     .left-column {
@@ -942,8 +941,9 @@
       delay: 2.5,
       onComplete: () => {
         preloader.style.display = 'none';
+        // Show grid container
+        document.querySelector('.grid-container').style.display = 'grid';
         // Animate elements in
-        gsap.to('.grid-container', { opacity: 1, duration: 0.5 });
         gsap.from('.masthead h1', { y: 100, opacity: 0, duration: 1, ease: 'power3.out' });
         gsap.from('.masthead .subtitle', { y: 50, opacity: 0, duration: 1, delay: 0.2, ease: 'power3.out' });
         gsap.from('.drop-zone', { scale: 0.9, opacity: 0, duration: 1, delay: 0.4, ease: 'power3.out' });
@@ -1049,22 +1049,36 @@
         addStatusLine(`Document loaded · ${totalPages} page${totalPages > 1 ? 's' : ''}`, true);
 
         for (let i = 1; i <= totalPages; i++) {
-          addStatusLine(`Extracting layer ${i}/${totalPages}`, true);
+          addStatusLine(`Extracting text content ${i}/${totalPages}`, true);
           
           try {
             const page = await pdf.getPage(i);
-            const viewport = page.getViewport({ scale: 2.0 }); // Higher scale for better quality
+            const textContent = await page.getTextContent();
+            
+            // Extract text with positions
+            const textItems = textContent.items.map(item => ({
+              str: item.str,
+              x: item.transform[4],
+              y: item.transform[5],
+              fontSize: item.height || 12,
+              fontName: item.fontName
+            }));
+
+            // Also extract vector graphics for non-text elements
+            const viewport = page.getViewport({ scale: 2.0 });
             const opList = await page.getOperatorList();
             const svgGfx = new pdfjsLib.SVGGraphics(page.commonObjs, page.objs);
             const svgElement = await svgGfx.getSVG(opList, viewport);
-            
             const svgString = new XMLSerializer().serializeToString(svgElement);
+
+            // Combine text and vector data
+            compiledSvgOutput += `<!-- Page ${i} -->\n`;
+            compiledSvgOutput += `<!-- Text Content: ${textItems.length} items -->\n`;
+            textItems.forEach((item, idx) => {
+              compiledSvgOutput += `<text x="${item.x}" y="${item.y}" font-size="${item.fontSize}" font-family="${item.fontName}">${item.str}</text>\n`;
+            });
+            compiledSvgOutput += `<!-- Vector Graphics -->\n${svgString}\n`;
             
-            if (svgString && svgString.length > 0) {
-              compiledSvgOutput += svgString;
-            } else {
-              console.warn(`Empty SVG output for page ${i}`);
-            }
           } catch (pageError) {
             console.error(`Error processing page ${i}:`, pageError);
             addStatusLine(`Error on page ${i} - skipping`);
@@ -1072,11 +1086,11 @@
         }
 
         if (compiledSvgOutput.length === 0) {
-          addStatusLine('No vector data extracted - PDF may be scanned images');
+          addStatusLine('No data extracted - PDF may be scanned images');
           return;
         }
 
-        addStatusLine('Compiling vector data', true);
+        addStatusLine('Compiling output', true);
         addStatusLine('Extraction complete');
         outputSection.classList.add('visible');
 
@@ -1106,23 +1120,28 @@
     document.getElementById('termsLink').addEventListener('click', (e) => {
       e.preventDefault();
       document.getElementById('termsModal').classList.add('visible');
+      lenis.stop();
     });
 
     document.getElementById('privacyLink').addEventListener('click', (e) => {
       e.preventDefault();
       document.getElementById('privacyModal').classList.add('visible');
+      lenis.stop();
     });
 
     document.getElementById('closeTerms').addEventListener('click', () => {
       document.getElementById('termsModal').classList.remove('visible');
+      lenis.start();
     });
 
     document.getElementById('closePrivacy').addEventListener('click', () => {
       document.getElementById('privacyModal').classList.remove('visible');
+      lenis.start();
     });
 
     document.getElementById('closePaywall').addEventListener('click', () => {
       document.getElementById('paywallModal').classList.remove('visible');
+      lenis.start();
     });
 
     document.getElementById('upgradeBtn').addEventListener('click', () => {
