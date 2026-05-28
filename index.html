@@ -1009,77 +1009,89 @@
     }
 
     // Text to PDF generation
-    downloadButton.addEventListener('click', () => {
-      const text = textInput.value.trim();
-      
-      if (!text) {
-        alert('Please enter some text to convert to PDF');
-        return;
-      }
-
-      clearStatus();
-      outputSection.classList.remove('visible');
-      processingStatus.classList.add('visible');
-
-      addStatusLine('Initializing PDF generation...', true);
-
-      try {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
+    if (downloadButton && textInput) {
+      downloadButton.addEventListener('click', () => {
+        console.log('Download button clicked');
+        const text = textInput.value.trim();
+        console.log('Text length:', text.length);
         
-        addStatusLine('Processing text content', true);
-        
-        // Set up document
-        const pageWidth = doc.internal.pageSize.getWidth();
-        const pageHeight = doc.internal.pageSize.getHeight();
-        const margin = 20;
-        const maxWidth = pageWidth - (margin * 2);
-        const lineHeight = 7;
-        let y = margin;
+        if (!text) {
+          alert('Please enter some text to convert to PDF');
+          return;
+        }
 
-        // Add title
-        doc.setFontSize(16);
-        doc.setFont('helvetica', 'bold');
-        doc.text('Vector Document', margin, y);
-        y += lineHeight * 2;
+        clearStatus();
+        outputSection.classList.remove('visible');
+        processingStatus.classList.add('visible');
 
-        // Add timestamp
-        doc.setFontSize(10);
-        doc.setFont('helvetica', 'normal');
-        const timestamp = new Date().toLocaleString();
-        doc.text(`Generated: ${timestamp}`, margin, y);
-        y += lineHeight * 2;
+        addStatusLine('Initializing PDF generation...', true);
 
-        // Add content
-        doc.setFontSize(12);
-        doc.setFont('times', 'normal');
-        
-        const lines = doc.splitTextToSize(text, maxWidth);
-        
-        addStatusLine(`Processing ${lines.length} lines`, true);
-
-        lines.forEach((line) => {
-          if (y > pageHeight - margin) {
-            doc.addPage();
-            y = margin;
+        try {
+          console.log('window.jspdf:', window.jspdf);
+          if (!window.jspdf) {
+            throw new Error('jsPDF library not loaded');
           }
-          doc.text(line, margin, y);
-          y += lineHeight;
-        });
+          
+          const { jsPDF } = window.jspdf;
+          const doc = new jsPDF();
+          
+          addStatusLine('Processing text content', true);
+          
+          // Set up document
+          const pageWidth = doc.internal.pageSize.getWidth();
+          const pageHeight = doc.internal.pageSize.getHeight();
+          const margin = 20;
+          const maxWidth = pageWidth - (margin * 2);
+          const lineHeight = 7;
+          let y = margin;
 
-        addStatusLine('Generating PDF', true);
-        
-        // Save the PDF
-        doc.save('vector-document.pdf');
-        
-        addStatusLine('PDF downloaded successfully');
-        outputSection.classList.add('visible');
+          // Add title
+          doc.setFontSize(16);
+          doc.setFont('helvetica', 'bold');
+          doc.text('Vector Document', margin, y);
+          y += lineHeight * 2;
 
-      } catch (error) {
-        console.error('PDF generation error:', error);
-        addStatusLine(`Generation failed: ${error.message}`);
-      }
-    });
+          // Add timestamp
+          doc.setFontSize(10);
+          doc.setFont('helvetica', 'normal');
+          const timestamp = new Date().toLocaleString();
+          doc.text(`Generated: ${timestamp}`, margin, y);
+          y += lineHeight * 2;
+
+          // Add content
+          doc.setFontSize(12);
+          doc.setFont('times', 'normal');
+          
+          const lines = doc.splitTextToSize(text, maxWidth);
+          
+          addStatusLine(`Processing ${lines.length} lines`, true);
+
+          lines.forEach((line) => {
+            if (y > pageHeight - margin) {
+              doc.addPage();
+              y = margin;
+            }
+            doc.text(line, margin, y);
+            y += lineHeight;
+          });
+
+          addStatusLine('Generating PDF', true);
+          
+          // Save the PDF
+          doc.save('vector-document.pdf');
+          
+          addStatusLine('PDF downloaded successfully');
+          outputSection.classList.add('visible');
+
+        } catch (error) {
+          console.error('PDF generation error:', error);
+          addStatusLine(`Generation failed: ${error.message}`);
+          alert(`Error: ${error.message}`);
+        }
+      });
+    } else {
+      console.error('Download button or text input not found');
+    }
 
     // Modals
     const termsLink = document.getElementById('termsLink');
