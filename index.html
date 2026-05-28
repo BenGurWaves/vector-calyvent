@@ -137,11 +137,12 @@
     }
 
     .grid-container {
-      display: none;
+      display: grid;
       grid-template-columns: 1fr 2fr 1fr;
       min-height: 100vh;
       position: relative;
       z-index: 2;
+      opacity: 0;
     }
 
     .left-column {
@@ -999,8 +1000,8 @@
       delay: 2.5,
       onComplete: () => {
         preloader.style.display = 'none';
-        // Show grid container
-        document.querySelector('.grid-container').style.display = 'grid';
+        // Fade in grid container
+        gsap.to('.grid-container', { opacity: 1, duration: 0.5 });
         // Animate elements in
         gsap.from('.masthead h1', { y: 100, opacity: 0, duration: 1, ease: 'power3.out' });
         gsap.from('.masthead .subtitle', { y: 50, opacity: 0, duration: 1, delay: 0.2, ease: 'power3.out' });
