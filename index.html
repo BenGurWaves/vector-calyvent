@@ -999,12 +999,6 @@
       delay: 2.5,
       onComplete: () => {
         preloader.style.display = 'none';
-        // Animate elements in
-        gsap.from('.masthead h1', { y: 100, opacity: 0, duration: 1, ease: 'power3.out' });
-        gsap.from('.masthead .subtitle', { y: 50, opacity: 0, duration: 1, delay: 0.2, ease: 'power3.out' });
-        gsap.from('.drop-zone', { scale: 0.9, opacity: 0, duration: 1, delay: 0.4, ease: 'power3.out' });
-        gsap.from('.left-column', { x: -50, opacity: 0, duration: 1, delay: 0.3, ease: 'power3.out' });
-        gsap.from('.right-column', { x: 50, opacity: 0, duration: 1, delay: 0.3, ease: 'power3.out' });
       }
     });
 
