@@ -969,12 +969,6 @@
       }
     });
 
-    // PDF.js initialization
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-
-    const MAX_FREE_SIZE = 15 * 1024 * 1024;
-    let compiledSvgOutput = '';
-
     // Update timestamp
     function updateTimestamp() {
       const now = new Date();
