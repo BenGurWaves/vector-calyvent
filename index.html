@@ -1040,38 +1040,8 @@
           let y = margin;
           const timestamp = new Date().toLocaleString();
 
-          // Function to add header and footer to each page
-          const addHeaderFooter = (pageNum, totalPages) => {
-            // Header - black background with geometric pattern
-            doc.setDrawColor(0);
-            doc.setFillColor(0);
-            doc.rect(0, 0, pageWidth, 50, 'F');
-            
-            // Geometric pattern - circles
-            doc.setDrawColor(255);
-            doc.setLineWidth(0.3);
-            for (let i = 0; i < 5; i++) {
-              const radius = 5 + i * 3;
-              const x = pageWidth - 30;
-              const y = 25;
-              doc.circle(x, y, radius, 'S');
-            }
-            
-            // Vector logo text
-            doc.setTextColor(255);
-            doc.setFontSize(32);
-            doc.setFont('helvetica', 'bold');
-            doc.text('VECTOR', margin, 32);
-            
-            // Subtitle
-            doc.setFontSize(10);
-            doc.setFont('helvetica', 'normal');
-            doc.text('TEXT TO PDF', margin, 40);
-            
-            // Decorative line
-            doc.setLineWidth(1);
-            doc.line(margin, 45, pageWidth - margin, 45);
-            
+          // Function to add footer to each page
+          const addFooter = (pageNum, totalPages) => {
             // Footer - low opacity branding (light gray)
             const footerY = pageHeight - 15;
             doc.setTextColor(128); // Light gray for low opacity effect
@@ -1086,9 +1056,9 @@
             doc.text(`${pageNum} / ${totalPages}`, pageWidth / 2, footerY + 5, { align: 'center' });
           };
 
-          // First page header
-          addHeaderFooter(1, 1);
-          y = 60;
+          // First page footer
+          addFooter(1, 1);
+          y = margin;
 
           // Add content with beautiful typography
           doc.setTextColor(0);
@@ -1100,11 +1070,11 @@
           let totalPages = 1;
           
           // First pass to count pages
-          let tempY = 60;
+          let tempY = margin;
           lines.forEach((line) => {
             if (tempY > pageHeight - 30) {
               totalPages++;
-              tempY = 60;
+              tempY = margin;
             }
             tempY += lineHeight;
           });
@@ -1112,15 +1082,15 @@
           addStatusLine(`Processing ${lines.length} lines across ${totalPages} pages`, true);
 
           // Second pass to render
-          y = 60;
+          y = margin;
           currentPage = 1;
           
           lines.forEach((line, index) => {
             if (y > pageHeight - 30) {
               currentPage++;
               doc.addPage();
-              addHeaderFooter(currentPage, totalPages);
-              y = 60;
+              addFooter(currentPage, totalPages);
+              y = margin;
             }
             doc.text(line, margin, y);
             y += lineHeight;
