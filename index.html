@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>VECTOR — PDF to Figma Vectors</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='4' y='4' width='24' height='24' fill='%23C4DCC8'/%3E%3Crect x='8' y='8' width='16' height='16' fill='%231D1D1D'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Lato:wght@300&family=Oswald:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -263,6 +264,25 @@
       color: var(--charcoal);
     }
 
+    .attribution {
+      font-family: 'Lato', sans-serif;
+      font-weight: 300;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 1rem;
+    }
+
+    .attribution a {
+      color: var(--kraft);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .attribution a:hover {
+      color: var(--charcoal);
+    }
+
     .modal {
       position: fixed;
       top: 0;
@@ -314,12 +334,32 @@
       color: var(--charcoal);
     }
 
+    .modal-content h3 {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 300;
+      font-size: 1.3rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      margin-top: 2rem;
+      color: var(--charcoal);
+    }
+
     .modal-content p {
       font-family: 'Crimson Text', Georgia, serif;
       font-size: 1rem;
       line-height: 1.8;
       color: var(--charcoal);
       margin-bottom: 1.5rem;
+    }
+
+    .modal-content ul {
+      font-family: 'Crimson Text', Georgia, serif;
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--charcoal);
+      margin-left: 1.5rem;
+      margin-bottom: 1rem;
     }
 
     .paywall-content {
@@ -468,26 +508,105 @@
         <a href="#" id="termsLink">Terms</a>
         <a href="#" id="privacyLink">Privacy</a>
       </div>
+      <div class="attribution">
+        <a href="https://velocity.calyvent.com" target="_blank" rel="noopener">Made by Velocity</a>
+      </div>
     </div>
   </div>
 
   <div class="modal" id="termsModal">
     <div class="modal-close" id="closeTerms">Close</div>
     <div class="modal-content">
-      <h2>Terms</h2>
-      <p>By using VECTOR, you agree to process PDF files entirely within your browser. No data is transmitted to external servers. The 15MB free tier limit applies to local processing. Larger files require a paid subscription.</p>
-      <p>VECTOR provides PDF-to-SVG extraction as-is. We make no guarantees about the quality or accuracy of extracted vectors. Use at your own risk for commercial projects.</p>
-      <p>Paid subscriptions are billed monthly or annually. Cancellation takes effect at the end of the current billing period. No refunds for partial months.</p>
+      <h2>Terms.</h2>
+      <h3>iWho we are.</h3>
+      <p>Vector is a product operated by Velocity ("we", "us", "our"). The single point of contact is [email protected]. We do not operate a phone line, a chat desk, a ticketing portal, or a support team. All communication, including legal notice, must be sent to that address. We are not obligated to reply within any specific timeframe.</p>
+      
+      <h3>iiWhat Vector is, and isn't.</h3>
+      <p>Vector is a browser-only utility that converts PDF files to SVG vector format for use in Figma. The conversion runs entirely on your device. We do not receive, store, transmit, or process the contents of any document you drop or otherwise submit into the workspace.</p>
+      <p>Vector is not a professional design tool, certified conversion service, or validation tool. It is not a substitute for professional review by a licensed designer or engineer. It does not produce production-grade output. Any output it produces must be independently reviewed before use.</p>
+      <p>Vector is offered as a writing instrument for technical work. You are the operator. You decide what to do with the output.</p>
+      
+      <h3>iiiHow the press is run.</h3>
+      <p>We do not actively service Vector. There is no service-level agreement, no uptime guarantee, no response-time guarantee, and no scheduled maintenance window. Updates ship when they ship. Bug fixes happen if and when we choose to make them. We may stop, pause, throttle, restrict, or remove the service at any time without notice.</p>
+      <p>If Vector is unavailable, malfunctioning, returning incorrect output, or behaving unexpectedly, your sole option is to email [email protected]. We may respond. We may not. We are under no obligation to respond, fix, refund, or remediate.</p>
+      
+      <h3>ivYour data, your responsibility.</h3>
+      <p>Vector processes your data in your browser. We never see, store, or transmit it. This means you — and only you — are responsible for the legality, accuracy, completeness, classification, retention, encryption, and disposal of any data you choose to load into the workspace.</p>
+      <p>You are solely responsible for ensuring your use of Vector complies with every law, regulation, contract, and policy that applies to you, including but not limited to: copyright, trademark, trade secret, confidentiality obligations, and your own organization's internal policies.</p>
+      
+      <h3>vDisclaimer of warranties.</h3>
+      <p>The service is provided "as is" and "as available" without warranty of any kind, whether express, implied, statutory, or otherwise. Calyvent disclaims all warranties, including but not limited to warranties of merchantability, fitness for a particular purpose, accuracy, completeness, reliability, availability, security, non-infringement, and quiet enjoyment. We do not warrant that the service will be uninterrupted, error-free, virus-free, accurate, or that defects will be corrected. We make no warranty regarding the output of any conversion, including its correctness, validity, or fidelity to the original document.</p>
+      
+      <h3>viLimitation of liability.</h3>
+      <p>To the maximum extent permitted by applicable law, in no event shall Calyvent, its owners, employees, contractors, agents, suppliers, or affiliates be liable for any indirect, incidental, special, consequential, exemplary, or punitive damages, including but not limited to loss of profits, loss of revenue, loss of data, loss of goodwill, business interruption, or cost of substitute services, arising out of or in connection with your use of, or inability to use, Vector — even if Calyvent has been advised of the possibility of such damages.</p>
+      <p>Velocity's total cumulative liability to you for any and all claims arising out of or related to Vector shall not exceed ten US dollars. This limit applies regardless of the form of the claim, whether in contract, tort, statute, or otherwise.</p>
     </div>
   </div>
 
   <div class="modal" id="privacyModal">
     <div class="modal-close" id="closePrivacy">Close</div>
     <div class="modal-content">
-      <h2>Privacy</h2>
-      <p>VECTOR processes all PDF files client-side in your browser. Your files never leave your device. We do not collect, store, or transmit any file data.</p>
-      <p>We use Cloudflare Pages for hosting. Cloudflare may collect standard analytics data. We do not use third-party tracking services.</p>
-      <p>Payment processing is handled through Stripe. We do not store or have access to your full payment details—only the last 4 digits for receipt purposes.</p>
+      <h2>Privacy.</h2>
+      <p style="font-style: italic;">Effective date: May 28, 2026. Plain version: your documents never leave your browser. Long version follows.</p>
+      
+      <h3>1Who controls your data.</h3>
+      <p>Velocity is the data controller. Our single contact channel is [email protected]. We do not operate a phone line. We do not have a Data Protection Officer. We are a small studio.</p>
+      
+      <h3>2What we collect.</h3>
+      <p>Vector is 100% free. We collect: standard request logs at the Cloudflare edge (IP address, user-agent, request path, timestamp), retained by Cloudflare on its standard rolling window. We do not access these logs except to investigate abuse. We do not collect email addresses, payment information, or any account data.</p>
+      
+      <h3>3What we never collect.</h3>
+      <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
+        <li>The files you parse.</li>
+        <li>The output you generate.</li>
+        <li>Any field, value, or content that passes through the workspace.</li>
+        <li>Browsing analytics, click-paths, scroll-depth, session-replay, mouse-movement, or heat-maps.</li>
+        <li>Marketing pixels, advertising identifiers, third-party trackers.</li>
+        <li>Email addresses, account credentials, or payment information.</li>
+      </ul>
+      <p>We have no telemetry pipeline. We have no analytics tool. We have no error-tracking service that ships payloads. The only network calls Vector makes during conversion are loading the page itself.</p>
+      
+      <h3>4Why we collect it.</h3>
+      <p>The minimum data we collect is collected to: (a) detect and prevent abuse; (b) comply with applicable law.</p>
+      
+      <h3>5Legal bases (GDPR / UK GDPR).</h3>
+      <p>Legitimate interests — to prevent fraud and abuse on our infrastructure.</p>
+      
+      <h3>6Sub-processors.</h3>
+      <p>Cloudflare, Inc. — hosting, edge delivery, DNS, DDoS protection. United States. Each sub-processor has its own privacy notice governing its use of your data. We have no other sub-processors.</p>
+      
+      <h3>7International transfers.</h3>
+      <p>Velocity operates from the United States. Our sub-processors are headquartered in the United States. If you are in the EEA, the United Kingdom, or Switzerland, your data is transferred to the United States, which has not been the subject of an adequacy decision applicable to all transfers. We rely on the Standard Contractual Clauses approved by the European Commission with each sub-processor where applicable.</p>
+      
+      <h3>8Retention.</h3>
+      <p>Cloudflare edge logs — Cloudflare's standard rolling window (typically 7 days), outside our control. Email correspondence with us — kept for as long as needed to resolve the issue, then deleted within twenty-four months.</p>
+      
+      <h3>9Your rights.</h3>
+      <p>Since we do not collect personal data beyond edge logs, there is no personal data to access, correct, or delete. California residents: you have the rights described in the CCPA/CPRA. We do not sell your data and we do not share it for cross-context behavioural advertising.</p>
+      
+      <h3>10Children.</h3>
+      <p>Vector is not intended for anyone under eighteen. We do not knowingly collect data from minors.</p>
+      
+      <h3>11Security.</h3>
+      <p>We use TLS for all transport. No system is perfectly secure; you accept this when you use Vector.</p>
+      
+      <h3>12Cookies and local storage.</h3>
+      <p>Vector uses your browser's local storage to remember your last-used input. We do not set advertising cookies, marketing cookies, or analytics cookies.</p>
+      
+      <h3>13Do Not Track.</h3>
+      <p>We do not track you, so DNT signals are not relevant. We honour them anyway.</p>
+      
+      <h3>14Breach notification.</h3>
+      <p>Because we do not store personal data or conversion data, a breach of our infrastructure cannot expose it.</p>
+      
+      <h3>15Changes.</h3>
+      <p>We may update this notice. The current version is always at this URL with an effective date at the top.</p>
+      
+      <h3>16Contact.</h3>
+      <p>All privacy correspondence: [email protected]. Subject line privacy reaches the right inbox.</p>
+      
+      <p style="margin-top: 2rem; font-size: 0.85rem; color: var(--kraft);">last set · may twenty-eighth · two thousand twenty-six</p>
+      <p style="font-size: 0.85rem;"><a href="https://velocity.calyvent.com" target="_blank" rel="noopener" style="color: var(--charcoal);">designed by Velocity</a></p>
     </div>
   </div>
 
