@@ -1034,36 +1034,93 @@
           // Set up document
           const pageWidth = doc.internal.pageSize.getWidth();
           const pageHeight = doc.internal.pageSize.getHeight();
-          const margin = 20;
+          const margin = 25;
           const maxWidth = pageWidth - (margin * 2);
-          const lineHeight = 7;
+          const lineHeight = 8;
           let y = margin;
-
-          // Add title
-          doc.setFontSize(16);
-          doc.setFont('helvetica', 'bold');
-          doc.text('Vector Document', margin, y);
-          y += lineHeight * 2;
-
-          // Add timestamp
-          doc.setFontSize(10);
-          doc.setFont('helvetica', 'normal');
           const timestamp = new Date().toLocaleString();
-          doc.text(`Generated: ${timestamp}`, margin, y);
-          y += lineHeight * 2;
 
-          // Add content
-          doc.setFontSize(12);
+          // Function to add header and footer to each page
+          const addHeaderFooter = (pageNum, totalPages) => {
+            // Header - black background with geometric pattern
+            doc.setDrawColor(0);
+            doc.setFillColor(0);
+            doc.rect(0, 0, pageWidth, 50, 'F');
+            
+            // Geometric pattern - circles
+            doc.setDrawColor(255);
+            doc.setLineWidth(0.3);
+            for (let i = 0; i < 5; i++) {
+              const radius = 5 + i * 3;
+              const x = pageWidth - 30;
+              const y = 25;
+              doc.circle(x, y, radius, 'S');
+            }
+            
+            // Vector logo text
+            doc.setTextColor(255);
+            doc.setFontSize(32);
+            doc.setFont('helvetica', 'bold');
+            doc.text('VECTOR', margin, 32);
+            
+            // Subtitle
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'normal');
+            doc.text('TEXT TO PDF', margin, 40);
+            
+            // Decorative line
+            doc.setLineWidth(1);
+            doc.line(margin, 45, pageWidth - margin, 45);
+            
+            // Footer - low opacity branding (light gray)
+            const footerY = pageHeight - 15;
+            doc.setTextColor(128); // Light gray for low opacity effect
+            doc.setFontSize(7);
+            doc.setFont('helvetica', 'normal');
+            doc.text('VECTOR', margin, footerY);
+            doc.text(`Generated: ${timestamp}`, pageWidth / 2, footerY, { align: 'center' });
+            doc.text('vector.calyvent.com', pageWidth - margin, footerY, { align: 'right' });
+            
+            // Page number
+            doc.setFontSize(6);
+            doc.text(`${pageNum} / ${totalPages}`, pageWidth / 2, footerY + 5, { align: 'center' });
+          };
+
+          // First page header
+          addHeaderFooter(1, 1);
+          y = 60;
+
+          // Add content with beautiful typography
+          doc.setTextColor(0);
+          doc.setFontSize(11);
           doc.setFont('times', 'normal');
           
           const lines = doc.splitTextToSize(text, maxWidth);
+          let currentPage = 1;
+          let totalPages = 1;
           
-          addStatusLine(`Processing ${lines.length} lines`, true);
-
+          // First pass to count pages
+          let tempY = 60;
           lines.forEach((line) => {
-            if (y > pageHeight - margin) {
+            if (tempY > pageHeight - 30) {
+              totalPages++;
+              tempY = 60;
+            }
+            tempY += lineHeight;
+          });
+
+          addStatusLine(`Processing ${lines.length} lines across ${totalPages} pages`, true);
+
+          // Second pass to render
+          y = 60;
+          currentPage = 1;
+          
+          lines.forEach((line, index) => {
+            if (y > pageHeight - 30) {
+              currentPage++;
               doc.addPage();
-              y = margin;
+              addHeaderFooter(currentPage, totalPages);
+              y = 60;
             }
             doc.text(line, margin, y);
             y += lineHeight;
