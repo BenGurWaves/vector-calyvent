@@ -214,6 +214,7 @@
       cursor: pointer;
       position: relative;
       overflow: hidden;
+      z-index: 10;
     }
 
     .drop-zone::before {
@@ -405,6 +406,7 @@
       z-index: 100;
       display: none;
       overflow-y: auto;
+      overflow-x: hidden;
     }
 
     .modal.visible {
@@ -641,28 +643,69 @@
     <div class="modal-close" id="closeTerms">Close</div>
     <div class="modal-content">
       <h2>Terms.</h2>
-      <h3>iWho we are.</h3>
-      <p>Vector is a product operated by Velocity ("we", "us", "our"). The single point of contact is [email protected]. We do not operate a phone line, a chat desk, a ticketing portal, or a support team. All communication, including legal notice, must be sent to that address. We are not obligated to reply within any specific timeframe.</p>
+      <p style="font-style: italic;">Effective date: May 28, 2026. Read this once before you use Vector. By using the service you accept every word of it.</p>
       
-      <h3>iiWhat Vector is, and isn't.</h3>
+      <p>Vector is provided strictly AS IS and AS AVAILABLE, with no warranties of any kind. We do not actively support, monitor, service, audit, validate, certify, or maintain Vector on your behalf. If something is wrong, you may email vector@calyvent.com and we may, at our sole discretion, respond. We are not obligated to.</p>
+      
+      <p style="font-family: 'Oswald', sans-serif; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2rem;">i — who we are</p>
+      <p style="font-family: 'Oswald', sans-serif; font-weight: 300; font-size: 1.3rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem;">Who we are.</p>
+      <p>Vector is a product operated by Velocity ("we", "us", "our"). The single point of contact is vector@calyvent.com. We do not operate a phone line, a chat desk, a ticketing portal, or a support team. All communication, including legal notice, must be sent to that address. We are not obligated to reply within any specific timeframe.</p>
+      
+      <p style="font-family: 'Oswald', sans-serif; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2rem;">ii — what Vector is, and isn't</p>
+      <p style="font-family: 'Oswald', sans-serif; font-weight: 300; font-size: 1.3rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem;">What Vector is, and isn't.</p>
       <p>Vector is a browser-only utility that converts PDF files to SVG vector format for use in Figma. The conversion runs entirely on your device. We do not receive, store, transmit, or process the contents of any document you drop or otherwise submit into the workspace.</p>
       <p>Vector is not a professional design tool, certified conversion service, or validation tool. It is not a substitute for professional review by a licensed designer or engineer. It does not produce production-grade output. Any output it produces must be independently reviewed before use.</p>
       <p>Vector is offered as a writing instrument for technical work. You are the operator. You decide what to do with the output.</p>
       
-      <h3>iiiHow the press is run.</h3>
+      <p style="font-family: 'Oswald', sans-serif; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2rem;">iii — how the press is run</p>
+      <p style="font-family: 'Oswald', sans-serif; font-weight: 300; font-size: 1.3rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem;">How the press is run.</p>
       <p>We do not actively service Vector. There is no service-level agreement, no uptime guarantee, no response-time guarantee, and no scheduled maintenance window. Updates ship when they ship. Bug fixes happen if and when we choose to make them. We may stop, pause, throttle, restrict, or remove the service at any time without notice.</p>
-      <p>If Vector is unavailable, malfunctioning, returning incorrect output, or behaving unexpectedly, your sole option is to email [email protected]. We may respond. We may not. We are under no obligation to respond, fix, refund, or remediate.</p>
+      <p>If Vector is unavailable, malfunctioning, returning incorrect output, or behaving unexpectedly, your sole option is to email vector@calyvent.com. We may respond. We may not. We are under no obligation to respond, fix, refund, or remediate.</p>
       
-      <h3>ivYour data, your responsibility.</h3>
+      <p style="font-family: 'Oswald', sans-serif; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2rem;">iv — your data, your responsibility</p>
+      <p style="font-family: 'Oswald', sans-serif; font-weight: 300; font-size: 1.3rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem;">Your data, your responsibility.</p>
       <p>Vector processes your data in your browser. We never see, store, or transmit it. This means you — and only you — are responsible for the legality, accuracy, completeness, classification, retention, encryption, and disposal of any data you choose to load into the workspace.</p>
       <p>You are solely responsible for ensuring your use of Vector complies with every law, regulation, contract, and policy that applies to you, including but not limited to: copyright, trademark, trade secret, confidentiality obligations, and your own organization's internal policies.</p>
       
-      <h3>vDisclaimer of warranties.</h3>
+      <p style="font-family: 'Oswald', sans-serif; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2rem;">v — disclaimer of warranties</p>
+      <p style="font-family: 'Oswald', sans-serif; font-weight: 300; font-size: 1.3rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem;">Disclaimer of warranties.</p>
       <p>The service is provided "as is" and "as available" without warranty of any kind, whether express, implied, statutory, or otherwise. Calyvent disclaims all warranties, including but not limited to warranties of merchantability, fitness for a particular purpose, accuracy, completeness, reliability, availability, security, non-infringement, and quiet enjoyment. We do not warrant that the service will be uninterrupted, error-free, virus-free, accurate, or that defects will be corrected. We make no warranty regarding the output of any conversion, including its correctness, validity, or fidelity to the original document.</p>
       
-      <h3>viLimitation of liability.</h3>
+      <p style="font-family: 'Oswald', sans-serif; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2rem;">vi — limitation of liability</p>
+      <p style="font-family: 'Oswald', sans-serif; font-weight: 300; font-size: 1.3rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem;">Limitation of liability.</p>
       <p>To the maximum extent permitted by applicable law, in no event shall Calyvent, its owners, employees, contractors, agents, suppliers, or affiliates be liable for any indirect, incidental, special, consequential, exemplary, or punitive damages, including but not limited to loss of profits, loss of revenue, loss of data, loss of goodwill, business interruption, or cost of substitute services, arising out of or in connection with your use of, or inability to use, Vector — even if Calyvent has been advised of the possibility of such damages.</p>
       <p>Velocity's total cumulative liability to you for any and all claims arising out of or related to Vector shall not exceed ten US dollars. This limit applies regardless of the form of the claim, whether in contract, tort, statute, or otherwise.</p>
+      
+      <p style="font-family: 'Oswald', sans-serif; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2rem;">vii — indemnification</p>
+      <p style="font-family: 'Oswald', sans-serif; font-weight: 300; font-size: 1.3rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem;">Indemnification.</p>
+      <p>You agree to indemnify, defend, and hold harmless Velocity and its owners, employees, contractors, agents, suppliers, and affiliates from any and all claims, demands, losses, damages, liabilities, costs, and expenses (including reasonable attorneys' fees) arising out of or related to: (a) your use of Vector; (b) your data, including any data you load, process, or output through Vector; (c) your violation of these terms; (d) your violation of any law, regulation, contract, or third-party right; and (e) any output of Vector that you act on, share, transmit, or rely upon.</p>
+      
+      <p style="font-family: 'Oswald', sans-serif; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2rem;">viii — acceptable use</p>
+      <p style="font-family: 'Oswald', sans-serif; font-weight: 300; font-size: 1.3rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem;">Acceptable use.</p>
+      <p>You agree not to: (i) use Vector to violate any law or regulation; (ii) attempt to reverse-engineer, decompile, or extract source from any non-open portion of Vector beyond what is permitted by law; (iii) attack, overload, probe, or otherwise interfere with Vector's infrastructure; (iv) impersonate another person; (v) use Vector to process data you do not have the legal right to process; (vi) resell or rebrand Vector as your own service without a written agreement.</p>
+      
+      <p style="font-family: 'Oswald', sans-serif; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2rem;">ix — intellectual property</p>
+      <p style="font-family: 'Oswald', sans-serif; font-weight: 300; font-size: 1.3rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem;">Intellectual property.</p>
+      <p>The Vector name, the Velocity name, and the design, code, typography, and visual identity of vector.calyvent.com are the property of Velocity and its licensors. You may not copy, modify, distribute, or create derivative works without written permission. Your data and your output are yours; we claim no ownership over them.</p>
+      
+      <p style="font-family: 'Oswald', sans-serif; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2rem;">x — termination</p>
+      <p style="font-family: 'Oswald', sans-serif; font-weight: 300; font-size: 1.3rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem;">Termination.</p>
+      <p>We may suspend or terminate your access or the entire service at any time, for any reason or no reason, with or without notice. On termination, all rights granted to you cease immediately. The provisions of these terms which by their nature should survive termination — disclaimers, limitations of liability, indemnification, governing-law provisions — survive.</p>
+      
+      <p style="font-family: 'Oswald', sans-serif; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2rem;">xi — changes to these terms</p>
+      <p style="font-family: 'Oswald', sans-serif; font-weight: 300; font-size: 1.3rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem;">Changes to these terms.</p>
+      <p>We may update these terms at any time by posting a new version at this URL and updating the effective date at the top. Your continued use of Vector after changes are posted constitutes acceptance of the new terms. If you do not accept the new terms, your only remedy is to stop using Vector.</p>
+      
+      <p style="font-family: 'Oswald', sans-serif; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2rem;">xii — governing law & dispute resolution</p>
+      <p style="font-family: 'Oswald', sans-serif; font-weight: 300; font-size: 1.3rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem;">Governing law & dispute resolution.</p>
+      <p>These terms are governed by the laws of the State of Delaware, United States of America, without regard to its conflict-of-laws principles. Any dispute arising out of or related to these terms or Vector shall be resolved exclusively by binding individual arbitration administered under the Commercial Arbitration Rules of the American Arbitration Association, seated in Wilmington, Delaware. You waive any right to a jury trial and any right to participate in a class action, class arbitration, or representative proceeding. If a court finds the class-action waiver unenforceable, the entire arbitration clause is severed and disputes will be resolved in the state or federal courts located in Wilmington, Delaware, to whose exclusive jurisdiction you consent.</p>
+      <p>You must bring any claim within one year after the cause of action accrues, or it is permanently barred.</p>
+      
+      <p style="font-family: 'Oswald', sans-serif; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2rem;">xiii — contact</p>
+      <p style="font-family: 'Oswald', sans-serif; font-weight: 300; font-size: 1.3rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem;">Contact.</p>
+      <p>The single channel for any matter — legal notice, takedown, complaint, suggestion — is vector@calyvent.com. Letters sent to other addresses are not considered delivered.</p>
+      
+      <p style="margin-top: 2rem; font-size: 0.85rem; color: var(--kraft);">last set · may twenty-eighth · two thousand twenty-six</p>
     </div>
   </div>
 
@@ -672,13 +715,16 @@
       <h2>Privacy.</h2>
       <p style="font-style: italic;">Effective date: May 28, 2026. Plain version: your documents never leave your browser. Long version follows.</p>
       
-      <h3>1Who controls your data.</h3>
-      <p>Velocity is the data controller. Our single contact channel is [email protected]. We do not operate a phone line. We do not have a Data Protection Officer. We are a small studio.</p>
+      <p style="font-family: 'Oswald', sans-serif; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2rem;">1 — who controls your data</p>
+      <p style="font-family: 'Oswald', sans-serif; font-weight: 300; font-size: 1.3rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem;">Who controls your data.</p>
+      <p>Velocity is the data controller. Our single contact channel is vector@calyvent.com. We do not operate a phone line. We do not have a Data Protection Officer. We are a small studio.</p>
       
-      <h3>2What we collect.</h3>
+      <p style="font-family: 'Oswald', sans-serif; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2rem;">2 — what we collect</p>
+      <p style="font-family: 'Oswald', sans-serif; font-weight: 300; font-size: 1.3rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem;">What we collect.</p>
       <p>Vector is 100% free. We collect: standard request logs at the Cloudflare edge (IP address, user-agent, request path, timestamp), retained by Cloudflare on its standard rolling window. We do not access these logs except to investigate abuse. We do not collect email addresses, payment information, or any account data.</p>
       
-      <h3>3What we never collect.</h3>
+      <p style="font-family: 'Oswald', sans-serif; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2rem;">3 — what we never collect</p>
+      <p style="font-family: 'Oswald', sans-serif; font-weight: 300; font-size: 1.3rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem;">What we never collect.</p>
       <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
         <li>The files you parse.</li>
         <li>The output you generate.</li>
@@ -689,47 +735,59 @@
       </ul>
       <p>We have no telemetry pipeline. We have no analytics tool. We have no error-tracking service that ships payloads. The only network calls Vector makes during conversion are loading the page itself.</p>
       
-      <h3>4Why we collect it.</h3>
+      <p style="font-family: 'Oswald', sans-serif; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2rem;">4 — why we collect it</p>
+      <p style="font-family: 'Oswald', sans-serif; font-weight: 300; font-size: 1.3rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem;">Why we collect it.</p>
       <p>The minimum data we collect is collected to: (a) detect and prevent abuse; (b) comply with applicable law.</p>
       
-      <h3>5Legal bases (GDPR / UK GDPR).</h3>
+      <p style="font-family: 'Oswald', sans-serif; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2rem;">5 — legal bases</p>
+      <p style="font-family: 'Oswald', sans-serif; font-weight: 300; font-size: 1.3rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem;">Legal bases (GDPR / UK GDPR).</p>
       <p>Legitimate interests — to prevent fraud and abuse on our infrastructure.</p>
       
-      <h3>6Sub-processors.</h3>
+      <p style="font-family: 'Oswald', sans-serif; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2rem;">6 — sub-processors</p>
+      <p style="font-family: 'Oswald', sans-serif; font-weight: 300; font-size: 1.3rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem;">Sub-processors.</p>
       <p>Cloudflare, Inc. — hosting, edge delivery, DNS, DDoS protection. United States. Each sub-processor has its own privacy notice governing its use of your data. We have no other sub-processors.</p>
       
-      <h3>7International transfers.</h3>
+      <p style="font-family: 'Oswald', sans-serif; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2rem;">7 — international transfers</p>
+      <p style="font-family: 'Oswald', sans-serif; font-weight: 300; font-size: 1.3rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem;">International transfers.</p>
       <p>Velocity operates from the United States. Our sub-processors are headquartered in the United States. If you are in the EEA, the United Kingdom, or Switzerland, your data is transferred to the United States, which has not been the subject of an adequacy decision applicable to all transfers. We rely on the Standard Contractual Clauses approved by the European Commission with each sub-processor where applicable.</p>
       
-      <h3>8Retention.</h3>
+      <p style="font-family: 'Oswald', sans-serif; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2rem;">8 — retention</p>
+      <p style="font-family: 'Oswald', sans-serif; font-weight: 300; font-size: 1.3rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem;">Retention.</p>
       <p>Cloudflare edge logs — Cloudflare's standard rolling window (typically 7 days), outside our control. Email correspondence with us — kept for as long as needed to resolve the issue, then deleted within twenty-four months.</p>
       
-      <h3>9Your rights.</h3>
+      <p style="font-family: 'Oswald', sans-serif; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2rem;">9 — your rights</p>
+      <p style="font-family: 'Oswald', sans-serif; font-weight: 300; font-size: 1.3rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem;">Your rights.</p>
       <p>Since we do not collect personal data beyond edge logs, there is no personal data to access, correct, or delete. California residents: you have the rights described in the CCPA/CPRA. We do not sell your data and we do not share it for cross-context behavioural advertising.</p>
       
-      <h3>10Children.</h3>
+      <p style="font-family: 'Oswald', sans-serif; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2rem;">10 — children</p>
+      <p style="font-family: 'Oswald', sans-serif; font-weight: 300; font-size: 1.3rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem;">Children.</p>
       <p>Vector is not intended for anyone under eighteen. We do not knowingly collect data from minors.</p>
       
-      <h3>11Security.</h3>
+      <p style="font-family: 'Oswald', sans-serif; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2rem;">11 — security</p>
+      <p style="font-family: 'Oswald', sans-serif; font-weight: 300; font-size: 1.3rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem;">Security.</p>
       <p>We use TLS for all transport. No system is perfectly secure; you accept this when you use Vector.</p>
       
-      <h3>12Cookies and local storage.</h3>
+      <p style="font-family: 'Oswald', sans-serif; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2rem;">12 — cookies and storage</p>
+      <p style="font-family: 'Oswald', sans-serif; font-weight: 300; font-size: 1.3rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem;">Cookies and local storage.</p>
       <p>Vector uses your browser's local storage to remember your last-used input. We do not set advertising cookies, marketing cookies, or analytics cookies.</p>
       
-      <h3>13Do Not Track.</h3>
+      <p style="font-family: 'Oswald', sans-serif; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2rem;">13 — Do Not Track</p>
+      <p style="font-family: 'Oswald', sans-serif; font-weight: 300; font-size: 1.3rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem;">Do Not Track.</p>
       <p>We do not track you, so DNT signals are not relevant. We honour them anyway.</p>
       
-      <h3>14Breach notification.</h3>
+      <p style="font-family: 'Oswald', sans-serif; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2rem;">14 — breach notification</p>
+      <p style="font-family: 'Oswald', sans-serif; font-weight: 300; font-size: 1.3rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem;">Breach notification.</p>
       <p>Because we do not store personal data or conversion data, a breach of our infrastructure cannot expose it.</p>
       
-      <h3>15Changes.</h3>
+      <p style="font-family: 'Oswald', sans-serif; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2rem;">15 — changes</p>
+      <p style="font-family: 'Oswald', sans-serif; font-weight: 300; font-size: 1.3rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem;">Changes.</p>
       <p>We may update this notice. The current version is always at this URL with an effective date at the top.</p>
       
-      <h3>16Contact.</h3>
-      <p>All privacy correspondence: [email protected]. Subject line privacy reaches the right inbox.</p>
+      <p style="font-family: 'Oswald', sans-serif; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2rem;">16 — contact</p>
+      <p style="font-family: 'Oswald', sans-serif; font-weight: 300; font-size: 1.3rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem;">Contact.</p>
+      <p>All privacy correspondence: vector@calyvent.com. Subject line privacy reaches the right inbox.</p>
       
       <p style="margin-top: 2rem; font-size: 0.85rem; color: var(--kraft);">last set · may twenty-eighth · two thousand twenty-six</p>
-      <p style="font-size: 0.85rem;"><a href="https://velocity.calyvent.com" target="_blank" rel="noopener" style="color: var(--charcoal);">designed by Velocity</a></p>
     </div>
   </div>
 
@@ -1049,36 +1107,22 @@
         addStatusLine(`Document loaded · ${totalPages} page${totalPages > 1 ? 's' : ''}`, true);
 
         for (let i = 1; i <= totalPages; i++) {
-          addStatusLine(`Extracting text content ${i}/${totalPages}`, true);
+          addStatusLine(`Extracting page ${i}/${totalPages}`, true);
           
           try {
             const page = await pdf.getPage(i);
-            const textContent = await page.getTextContent();
-            
-            // Extract text with positions
-            const textItems = textContent.items.map(item => ({
-              str: item.str,
-              x: item.transform[4],
-              y: item.transform[5],
-              fontSize: item.height || 12,
-              fontName: item.fontName
-            }));
-
-            // Also extract vector graphics for non-text elements
-            const viewport = page.getViewport({ scale: 2.0 });
+            const viewport = page.getViewport({ scale: 3.0 }); // Higher scale for better quality
             const opList = await page.getOperatorList();
             const svgGfx = new pdfjsLib.SVGGraphics(page.commonObjs, page.objs);
             const svgElement = await svgGfx.getSVG(opList, viewport);
-            const svgString = new XMLSerializer().serializeToString(svgElement);
-
-            // Combine text and vector data
-            compiledSvgOutput += `<!-- Page ${i} -->\n`;
-            compiledSvgOutput += `<!-- Text Content: ${textItems.length} items -->\n`;
-            textItems.forEach((item, idx) => {
-              compiledSvgOutput += `<text x="${item.x}" y="${item.y}" font-size="${item.fontSize}" font-family="${item.fontName}">${item.str}</text>\n`;
-            });
-            compiledSvgOutput += `<!-- Vector Graphics -->\n${svgString}\n`;
             
+            const svgString = new XMLSerializer().serializeToString(svgElement);
+            
+            if (svgString && svgString.length > 0) {
+              compiledSvgOutput += svgString;
+            } else {
+              console.warn(`Empty SVG output for page ${i}`);
+            }
           } catch (pageError) {
             console.error(`Error processing page ${i}:`, pageError);
             addStatusLine(`Error on page ${i} - skipping`);
@@ -1086,7 +1130,7 @@
         }
 
         if (compiledSvgOutput.length === 0) {
-          addStatusLine('No data extracted - PDF may be scanned images');
+          addStatusLine('No vector data extracted - PDF may be scanned images');
           return;
         }
 
@@ -1121,27 +1165,32 @@
       e.preventDefault();
       document.getElementById('termsModal').classList.add('visible');
       lenis.stop();
+      document.body.style.overflow = 'auto';
     });
 
     document.getElementById('privacyLink').addEventListener('click', (e) => {
       e.preventDefault();
       document.getElementById('privacyModal').classList.add('visible');
       lenis.stop();
+      document.body.style.overflow = 'auto';
     });
 
     document.getElementById('closeTerms').addEventListener('click', () => {
       document.getElementById('termsModal').classList.remove('visible');
       lenis.start();
+      document.body.style.overflow = '';
     });
 
     document.getElementById('closePrivacy').addEventListener('click', () => {
       document.getElementById('privacyModal').classList.remove('visible');
       lenis.start();
+      document.body.style.overflow = '';
     });
 
     document.getElementById('closePaywall').addEventListener('click', () => {
       document.getElementById('paywallModal').classList.remove('visible');
       lenis.start();
+      document.body.style.overflow = '';
     });
 
     document.getElementById('upgradeBtn').addEventListener('click', () => {
