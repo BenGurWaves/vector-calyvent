@@ -389,6 +389,7 @@
       max-width: 600px;
       margin: 0 auto;
       padding: 6rem 2rem;
+      min-height: 100vh;
     }
 
     .modal-close {
@@ -1127,7 +1128,7 @@
         const modal = document.getElementById('termsModal');
         if (modal) modal.classList.add('visible');
         if (typeof lenis !== 'undefined') lenis.stop();
-        document.body.style.overflow = 'auto';
+        document.body.style.overflow = 'hidden';
       });
     }
 
@@ -1137,7 +1138,7 @@
         const modal = document.getElementById('privacyModal');
         if (modal) modal.classList.add('visible');
         if (typeof lenis !== 'undefined') lenis.stop();
-        document.body.style.overflow = 'auto';
+        document.body.style.overflow = 'hidden';
       });
     }
 
