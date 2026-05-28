@@ -9,6 +9,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Lato:wght@300&family=Oswald:wght@300;400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
   <style>
     * {
       margin: 0;
@@ -34,6 +38,89 @@
       line-height: 1.7;
       min-height: 100vh;
       position: relative;
+      cursor: none;
+      overflow-x: hidden;
+    }
+
+    /* Custom cursor */
+    .custom-cursor {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--charcoal);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width 0.3s ease, height 0.3s ease, background 0.3s ease;
+      mix-blend-mode: difference;
+    }
+
+    .custom-cursor.hover {
+      width: 50px;
+      height: 50px;
+      background: var(--sage);
+      border-color: var(--sage);
+    }
+
+    .cursor-dot {
+      position: fixed;
+      width: 6px;
+      height: 6px;
+      background: var(--charcoal);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+    }
+
+    /* WebGL canvas */
+    #webgl-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Preloader */
+    .preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--charcoal);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    .preloader-text {
+      font-family: 'Oswald', sans-serif;
+      font-size: 3rem;
+      color: var(--sage);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      opacity: 0;
+    }
+
+    .preloader-progress {
+      width: 200px;
+      height: 2px;
+      background: rgba(196, 220, 200, 0.2);
+      margin-top: 2rem;
+      overflow: hidden;
+    }
+
+    .preloader-progress-bar {
+      width: 0%;
+      height: 100%;
+      background: var(--sage);
     }
 
     /* Paper texture overlay */
@@ -55,6 +142,7 @@
       min-height: 100vh;
       position: relative;
       z-index: 2;
+      opacity: 0;
     }
 
     .left-column {
@@ -223,12 +311,37 @@
       border: none;
       padding: 1.25rem 2.5rem;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: transform 0.3s ease, background 0.3s ease;
       width: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .copy-button::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: var(--sage);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.6s ease, height 0.6s ease;
+    }
+
+    .copy-button:hover::before {
+      width: 300px;
+      height: 300px;
     }
 
     .copy-button:hover {
       background: var(--kraft);
+    }
+
+    .copy-button span {
+      position: relative;
+      z-index: 1;
     }
 
     .copy-button.copied {
@@ -468,6 +581,17 @@
   </style>
 </head>
 <body>
+  <div class="preloader">
+    <div class="preloader-text">Vector</div>
+    <div class="preloader-progress">
+      <div class="preloader-progress-bar"></div>
+    </div>
+  </div>
+
+  <div class="custom-cursor"></div>
+  <div class="cursor-dot"></div>
+  <canvas id="webgl-canvas"></canvas>
+
   <div class="organic-shape organic-shape-1"></div>
   <div class="organic-shape organic-shape-2"></div>
 
@@ -496,7 +620,7 @@
       <div class="processing-status" id="processingStatus"></div>
 
       <div class="output-section" id="outputSection">
-        <button class="copy-button" id="copyButton">Copy Vector Data</button>
+        <button class="copy-button" id="copyButton"><span>Copy Vector Data</span></button>
       </div>
     </div>
 
@@ -630,6 +754,205 @@
   </div>
 
   <script>
+    // Initialize Lenis smooth scroll
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      direction: 'vertical',
+      gestureDirection: 'vertical',
+      smooth: true,
+      mouseMultiplier: 1,
+      smoothTouch: false,
+      touchMultiplier: 2,
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    // GSAP ScrollTrigger integration with Lenis
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((time) => {
+      lenis.raf(time * 1000);
+    });
+    gsap.ticker.lagSmoothing(0);
+
+    // Custom cursor
+    const cursor = document.querySelector('.custom-cursor');
+    const cursorDot = document.querySelector('.cursor-dot');
+    let mouseX = 0, mouseY = 0;
+    let cursorX = 0, cursorY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
+    function animateCursor() {
+      cursorX += (mouseX - cursorX) * 0.1;
+      cursorY += (mouseY - cursorY) * 0.1;
+      
+      cursor.style.left = cursorX + 'px';
+      cursor.style.top = cursorY + 'px';
+      cursorDot.style.left = mouseX + 'px';
+      cursorDot.style.top = mouseY + 'px';
+      
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+
+    // Magnetic cursor effect
+    const magneticElements = document.querySelectorAll('a, button, .drop-zone');
+    magneticElements.forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+    });
+
+    // WebGL fluid shader background
+    const canvas = document.getElementById('webgl-canvas');
+    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+
+    const vertexShader = `
+      varying vec2 vUv;
+      void main() {
+        vUv = uv;
+        gl_Position = vec4(position, 1.0);
+      }
+    `;
+
+    const fragmentShader = `
+      uniform float uTime;
+      uniform vec2 uMouse;
+      uniform vec2 uResolution;
+      varying vec2 vUv;
+
+      // Simplex noise function
+      vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+      vec2 mod289(vec2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+      vec3 permute(vec3 x) { return mod289(((x*34.0)+1.0)*x); }
+
+      float snoise(vec2 v) {
+        const vec4 C = vec4(0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439);
+        vec2 i  = floor(v + dot(v, C.yy));
+        vec2 x0 = v - i + dot(i, C.xx);
+        vec2 i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+        vec4 x12 = x0.xyxy + C.xxzz;
+        x12.xy -= i1;
+        i = mod289(i);
+        vec3 p = permute(permute(i.y + vec3(0.0, i1.y, 1.0)) + i.x + vec3(0.0, i1.x, 1.0));
+        vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);
+        m = m*m;
+        m = m*m;
+        vec3 x = 2.0 * fract(p * C.www) - 1.0;
+        vec3 h = abs(x) - 0.5;
+        vec3 ox = floor(x + 0.5);
+        vec3 a0 = x - ox;
+        m *= 1.79284291400159 - 0.85373472095314 * (a0*a0 + h*h);
+        vec3 g;
+        g.x = a0.x * x0.x + h.x * x0.y;
+        g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+        return 130.0 * dot(m, g);
+      }
+
+      void main() {
+        vec2 st = gl_FragCoord.xy / uResolution.xy;
+        float aspect = uResolution.x / uResolution.y;
+        st.x *= aspect;
+        
+        float noise = snoise(st * 2.0 + uTime * 0.1);
+        float noise2 = snoise(st * 3.0 - uTime * 0.15);
+        
+        float combined = noise * 0.5 + noise2 * 0.3;
+        
+        // Mouse influence
+        vec2 mouse = uMouse / uResolution;
+        mouse.x *= aspect;
+        float dist = distance(st, mouse);
+        float mouseInfluence = smoothstep(0.5, 0.0, dist) * 0.3;
+        
+        combined += mouseInfluence;
+        
+        // Sage green color
+        vec3 color = vec3(0.769, 0.863, 0.784); // #C4DCC8
+        color += combined * 0.1;
+        
+        // Add subtle variation
+        color.r += snoise(st * 5.0 + uTime * 0.2) * 0.05;
+        color.g += snoise(st * 5.0 + uTime * 0.2 + 100.0) * 0.05;
+        color.b += snoise(st * 5.0 + uTime * 0.2 + 200.0) * 0.05;
+        
+        gl_FragColor = vec4(color, 0.15);
+      }
+    `;
+
+    const uniforms = {
+      uTime: { value: 0 },
+      uMouse: { value: new THREE.Vector2(0, 0) },
+      uResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) }
+    };
+
+    const material = new THREE.ShaderMaterial({
+      vertexShader,
+      fragmentShader,
+      uniforms,
+      transparent: true
+    });
+
+    const geometry = new THREE.PlaneGeometry(2, 2);
+    const mesh = new THREE.Mesh(geometry, material);
+    scene.add(mesh);
+
+    document.addEventListener('mousemove', (e) => {
+      uniforms.uMouse.value.x = e.clientX;
+      uniforms.uMouse.value.y = window.innerHeight - e.clientY;
+    });
+
+    window.addEventListener('resize', () => {
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      uniforms.uResolution.value.x = window.innerWidth;
+      uniforms.uResolution.value.y = window.innerHeight;
+    });
+
+    function animateWebGL() {
+      uniforms.uTime.value += 0.01;
+      renderer.render(scene, camera);
+      requestAnimationFrame(animateWebGL);
+    }
+    animateWebGL();
+
+    // Preloader animation
+    const preloader = document.querySelector('.preloader');
+    const preloaderText = document.querySelector('.preloader-text');
+    const preloaderProgress = document.querySelector('.preloader-progress-bar');
+
+    gsap.to(preloaderText, { opacity: 1, duration: 0.5, delay: 0.2 });
+    gsap.to(preloaderProgress, { width: '100%', duration: 1.5, ease: 'power2.inOut', delay: 0.5 });
+    
+    gsap.to(preloader, {
+      yPercent: -100,
+      duration: 1,
+      ease: 'power4.inOut',
+      delay: 2.5,
+      onComplete: () => {
+        preloader.style.display = 'none';
+        // Animate elements in
+        gsap.to('.grid-container', { opacity: 1, duration: 0.5 });
+        gsap.from('.masthead h1', { y: 100, opacity: 0, duration: 1, ease: 'power3.out' });
+        gsap.from('.masthead .subtitle', { y: 50, opacity: 0, duration: 1, delay: 0.2, ease: 'power3.out' });
+        gsap.from('.drop-zone', { scale: 0.9, opacity: 0, duration: 1, delay: 0.4, ease: 'power3.out' });
+        gsap.from('.left-column', { x: -50, opacity: 0, duration: 1, delay: 0.3, ease: 'power3.out' });
+        gsap.from('.right-column', { x: 50, opacity: 0, duration: 1, delay: 0.3, ease: 'power3.out' });
+      }
+    });
+
+    // PDF.js initialization
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
     const MAX_FREE_SIZE = 15 * 1024 * 1024;
