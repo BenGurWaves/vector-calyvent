@@ -83,6 +83,7 @@
       height: 100%;
       z-index: 0;
       pointer-events: none;
+      opacity: 0.5;
     }
 
     /* Preloader */
@@ -584,10 +585,6 @@
 <body>
   <div class="custom-cursor"></div>
   <div class="cursor-dot"></div>
-  <canvas id="webgl-canvas"></canvas>
-
-  <div class="organic-shape organic-shape-1"></div>
-  <div class="organic-shape organic-shape-2"></div>
 
   <div class="grid-container">
     <div class="left-column">
@@ -976,24 +973,6 @@
       requestAnimationFrame(animateWebGL);
     }
     animateWebGL();
-
-    // Preloader animation
-    const preloader = document.querySelector('.preloader');
-    const preloaderText = document.querySelector('.preloader-text');
-    const preloaderProgress = document.querySelector('.preloader-progress-bar');
-
-    gsap.to(preloaderText, { opacity: 1, duration: 0.5, delay: 0.2 });
-    gsap.to(preloaderProgress, { width: '100%', duration: 1.5, ease: 'power2.inOut', delay: 0.5 });
-    
-    gsap.to(preloader, {
-      yPercent: -100,
-      duration: 1,
-      ease: 'power4.inOut',
-      delay: 2.5,
-      onComplete: () => {
-        preloader.style.display = 'none';
-      }
-    });
 
     // PDF.js initialization
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
