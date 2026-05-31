@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy — VECTOR</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='4' y='4' width='24' height='24' fill='%23C4DCC8'/%3E%3Crect x='8' y='8' width='16' height='16' fill='%231D1D1D'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Lato:wght@300&family=Oswald:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --sage: #C4DCC8;
+      --white: #FFFFFF;
+      --kraft: #C9B19C;
+      --charcoal: #1D1D1D;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Crimson Text', Georgia, serif;
+      background: var(--white);
+      color: var(--charcoal);
+      line-height: 1.7;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 6rem 2rem 8rem 2rem;
+    }
+
+    h1 {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 300;
+      font-size: clamp(2rem, 5vw, 3rem);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+    }
+
+    h2 {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 300;
+      font-size: clamp(2rem, 5vw, 3rem);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+    }
+
+    p {
+      margin-bottom: 1rem;
+    }
+
+    .back-link {
+      display: inline-block;
+      font-family: 'Lato', sans-serif;
+      font-weight: 300;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--kraft);
+      text-decoration: none;
+      margin-bottom: 2rem;
+      transition: color 0.3s ease;
+    }
+
+    .back-link:hover {
+      color: var(--charcoal);
+    }
+
+    ul {
+      margin-left: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 4rem 1.5rem 6rem 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="/" class="back-link">← Back to Vector</a>
+    <h2>Privacy.</h2>
+    <p style="font-style: italic;">Effective date: May 28, 2026. Plain version: your text never leaves your browser. Long version follows.</p>
+    
+    <p style="font-family: 'Oswald', sans-serif; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2rem;">1 — who controls your data</p>
+    <p style="font-family: 'Oswald', sans-serif; font-weight: 300; font-size: 1.3rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem;">Who controls your data.</p>
+    <p>Velocity is the data controller. Our single contact channel is vector@calyvent.com. We do not operate a phone line. We do not have a Data Protection Officer. We are a small studio.</p>
+    
+    <p style="font-family: 'Oswald', sans-serif; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2rem;">2 — what we collect</p>
+    <p style="font-family: 'Oswald', sans-serif; font-weight: 300; font-size: 1.3rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem;">What we collect.</p>
+    <p>Vector is 100% free. We collect: standard request logs at the Cloudflare edge (IP address, user-agent, request path, timestamp), retained by Cloudflare on its standard rolling window. We do not access these logs except to investigate abuse. We do not collect email addresses, payment information, or any account data.</p>
+    
+    <p style="font-family: 'Oswald', sans-serif; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2rem;">3 — what we never collect</p>
+    <p style="font-family: 'Oswald', sans-serif; font-weight: 300; font-size: 1.3rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem;">What we never collect.</p>
+    <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
+      <li>The text you type or paste.</li>
+      <li>The PDF documents you generate.</li>
+      <li>Any field, value, or content that passes through the workspace.</li>
+      <li>Browsing analytics, click-paths, scroll-depth, session-replay, mouse-movement, or heat-maps.</li>
+      <li>Marketing pixels, advertising identifiers, third-party trackers.</li>
+      <li>Email addresses, account credentials, or payment information.</li>
+    </ul>
+    <p>We have no telemetry pipeline. We have no analytics tool. We have no error-tracking service that ships payloads. The only network calls Vector makes during conversion are loading the page itself.</p>
+    
+    <p style="font-family: 'Oswald', sans-serif; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2rem;">4 — why we collect it</p>
+    <p style="font-family: 'Oswald', sans-serif; font-weight: 300; font-size: 1.3rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem;">Why we collect it.</p>
+    <p>The minimum data we collect is collected to: (a) detect and prevent abuse; (b) comply with applicable law.</p>
+    
+    <p style="font-family: 'Oswald', sans-serif; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2rem;">5 — legal bases</p>
+    <p style="font-family: 'Oswald', sans-serif; font-weight: 300; font-size: 1.3rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem;">Legal bases (GDPR / UK GDPR).</p>
+    <p>Legitimate interests — to prevent fraud and abuse on our infrastructure.</p>
+    
+    <p style="font-family: 'Oswald', sans-serif; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2rem;">6 — sub-processors</p>
+    <p style="font-family: 'Oswald', sans-serif; font-weight: 300; font-size: 1.3rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem;">Sub-processors.</p>
+    <p>Cloudflare, Inc. — hosting, edge delivery, DNS, DDoS protection. United States. Each sub-processor has its own privacy notice governing its use of your data. We have no other sub-processors.</p>
+    
+    <p style="font-family: 'Oswald', sans-serif; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2rem;">7 — international transfers</p>
+    <p style="font-family: 'Oswald', sans-serif; font-weight: 300; font-size: 1.3rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem;">International transfers.</p>
+    <p>Velocity operates from the United States. Our sub-processors are headquartered in the United States. If you are in the EEA, the United Kingdom, or Switzerland, your data is transferred to the United States, which has not been the subject of an adequacy decision applicable to all transfers. We rely on the Standard Contractual Clauses approved by the European Commission with each sub-processor where applicable.</p>
+    
+    <p style="font-family: 'Oswald', sans-serif; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2rem;">8 — retention</p>
+    <p style="font-family: 'Oswald', sans-serif; font-weight: 300; font-size: 1.3rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem;">Retention.</p>
+    <p>Cloudflare edge logs — Cloudflare's standard rolling window (typically 7 days), outside our control. Email correspondence with us — kept for as long as needed to resolve the issue, then deleted within twenty-four months.</p>
+    
+    <p style="font-family: 'Oswald', sans-serif; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2rem;">9 — your rights</p>
+    <p style="font-family: 'Oswald', sans-serif; font-weight: 300; font-size: 1.3rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem;">Your rights.</p>
+    <p>Since we do not collect personal data beyond edge logs, there is no personal data to access, correct, or delete. California residents: you have the rights described in the CCPA/CPRA. We do not sell your data and we do not share it for cross-context behavioural advertising.</p>
+    
+    <p style="font-family: 'Oswald', sans-serif; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2rem;">10 — children</p>
+    <p style="font-family: 'Oswald', sans-serif; font-weight: 300; font-size: 1.3rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem;">Children.</p>
+    <p>Vector is not intended for anyone under eighteen. We do not knowingly collect data from minors.</p>
+    
+    <p style="font-family: 'Oswald', sans-serif; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2rem;">11 — security</p>
+    <p style="font-family: 'Oswald', sans-serif; font-weight: 300; font-size: 1.3rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem;">Security.</p>
+    <p>We use TLS for all transport. No system is perfectly secure; you accept this when you use Vector.</p>
+    
+    <p style="font-family: 'Oswald', sans-serif; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2rem;">12 — cookies and storage</p>
+    <p style="font-family: 'Oswald', sans-serif; font-weight: 300; font-size: 1.3rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem;">Cookies and local storage.</p>
+    <p>Vector uses your browser's local storage to remember your last-used input. We do not set advertising cookies, marketing cookies, or analytics cookies.</p>
+    
+    <p style="font-family: 'Oswald', sans-serif; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2rem;">13 — Do Not Track</p>
+    <p style="font-family: 'Oswald', sans-serif; font-weight: 300; font-size: 1.3rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem;">Do Not Track.</p>
+    <p>We do not track you, so DNT signals are not relevant. We honour them anyway.</p>
+    
+    <p style="font-family: 'Oswald', sans-serif; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2rem;">14 — breach notification</p>
+    <p style="font-family: 'Oswald', sans-serif; font-weight: 300; font-size: 1.3rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem;">Breach notification.</p>
+    <p>Because we do not store personal data or conversion data, a breach of our infrastructure cannot expose it.</p>
+    
+    <p style="font-family: 'Oswald', sans-serif; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2rem;">15 — changes</p>
+    <p style="font-family: 'Oswald', sans-serif; font-weight: 300; font-size: 1.3rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem;">Changes.</p>
+    <p>We may update this notice. The current version is always at this URL with an effective date at the top.</p>
+    
+    <p style="font-family: 'Oswald', sans-serif; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2rem;">16 — contact</p>
+    <p style="font-family: 'Oswald', sans-serif; font-weight: 300; font-size: 1.3rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem;">Contact.</p>
+    <p>All privacy correspondence: vector@calyvent.com. Subject line privacy reaches the right inbox.</p>
+    
+    <p style="margin-top: 2rem; font-size: 0.85rem; color: var(--kraft);">last set · may twenty-eighth · two thousand twenty-six</p>
+  </div>
+</body>
+</html>
