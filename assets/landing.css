@@ -1,0 +1,222 @@
+/* VECTOR — shared styles for long-tail landing pages. Lean, fast, on-brand. */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --sage: #C4DCC8;
+  --white: #FFFFFF;
+  --kraft: #C9B19C;
+  --charcoal: #1D1D1D;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Crimson Text', Georgia, serif;
+  background: var(--white);
+  color: var(--charcoal);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
+}
+
+.shell {
+  position: relative;
+  z-index: 2;
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem 5rem;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--kraft);
+}
+
+.brand {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 500;
+  font-size: 1.1rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--charcoal);
+  background: var(--sage);
+  padding: 0.4rem 0.9rem;
+  text-decoration: none;
+}
+
+.breadcrumb {
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--kraft);
+}
+
+.breadcrumb a { color: var(--kraft); text-decoration: none; }
+.breadcrumb a:hover { color: var(--charcoal); }
+.breadcrumb span { margin: 0 0.5rem; }
+
+h1 {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 300;
+  font-size: clamp(2.2rem, 6vw, 4rem);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  margin: 3rem 0 1rem;
+}
+
+h1 .accent { color: #8aa790; }
+
+.lede {
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
+  font-size: 0.8rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--kraft);
+  margin-bottom: 2.5rem;
+}
+
+.text-input {
+  width: 100%;
+  min-height: 260px;
+  padding: 1.75rem;
+  border: 2px solid var(--sage);
+  background: var(--white);
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 1rem;
+  line-height: 1.8;
+  color: var(--charcoal);
+  resize: vertical;
+  transition: border-color 0.3s ease;
+}
+
+.text-input:focus { outline: none; border-color: var(--charcoal); }
+.text-input::placeholder { color: var(--kraft); font-style: italic; }
+
+.copy-button {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 400;
+  font-size: 0.9rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--white);
+  background: var(--charcoal);
+  border: none;
+  padding: 1.15rem 2.5rem;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 1.25rem;
+  transition: background 0.3s ease;
+}
+
+.copy-button:hover { background: var(--kraft); }
+
+.processing-status {
+  margin-top: 1.75rem;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, var(--sage) 0%, rgba(196, 220, 200, 0.7) 100%);
+  display: none;
+}
+
+.processing-status.visible { display: block; }
+
+.status-line {
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 0.3s ease;
+}
+
+.status-line.visible { opacity: 1; transform: translateX(0); }
+.status-line.active { font-weight: 400; }
+
+article { margin-top: 4rem; max-width: 64ch; }
+
+article h2 {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 300;
+  font-size: 1.4rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin: 2.5rem 0 1rem;
+}
+
+article p { margin-bottom: 1rem; font-size: 1.02rem; }
+article ol, article ul { margin: 0 0 1rem 1.25rem; }
+article li { margin-bottom: 0.35rem; }
+
+pre {
+  background: var(--charcoal);
+  color: var(--sage);
+  padding: 1.25rem 1.5rem;
+  overflow-x: auto;
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  margin: 0 0 1rem;
+}
+
+.related {
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--kraft);
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.related h2 {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 400;
+  font-size: 0.9rem;
+  letter-spacing: 0.12em;
+  margin-bottom: 1rem;
+}
+
+.related a {
+  display: inline-block;
+  color: var(--kraft);
+  text-decoration: none;
+  margin: 0 1.5rem 0.75rem 0;
+  transition: color 0.3s ease;
+}
+
+.related a:hover { color: var(--charcoal); }
+
+.foot {
+  margin-top: 3rem;
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
+  font-size: 0.62rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--kraft);
+}
+
+.foot a { color: var(--kraft); text-decoration: none; }
+.foot a:hover { color: var(--charcoal); }
+
+@media (max-width: 600px) {
+  .shell { padding: 1.75rem 1.25rem 4rem; }
+  .topbar { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+}

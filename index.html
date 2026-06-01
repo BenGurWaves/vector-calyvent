@@ -36,11 +36,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Lato:wght@300&family=Oswald:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha512-qZvrmS2ekKPF2mSznTQsxqPgnpkI4DNTlrdUmTzrDgektczlKNRRhy5X5AAOnx5S09ydFYWWNSfcEqDTTHgtNA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" integrity="sha512-dLxUelApnYxpLt6K2iomGngnHO83iUvZytA3YjDUCjT0HDOHKXnVYdf3hU4JjM8uEhxf9nD1/ey98U3t2vZ0qQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" integrity="sha512-16esztaSRplJROstbIIdwX3N97V1+pZvV33ABoG1H2OyTttBxEGkTsoIVsiP1iaTtM8b3+hu2kB6pQ4Clr5yug==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" integrity="sha512-Ic9xkERjyZ1xgJ5svx3y0u3xrvfT/uPkV99LBwe68xjy/mGtO+4eURHZBW2xW4SZbFrF1Tf090XqB+EVgXnVjw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js" integrity="sha512-eU9ncL6+6PLExMwtTmaM32EAHPih+ND8gSvUg+tgNwps09gFNhBJVLW3VGXw9hUzaDzPwZFx7f4M3/8VXsMdBw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <!-- Core PDF + motion libs: deferred so they never block first paint (Core Web Vitals).
+       three.js (~600KB, purely decorative) is lazy-loaded after load — see end of body. -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha512-qZvrmS2ekKPF2mSznTQsxqPgnpkI4DNTlrdUmTzrDgektczlKNRRhy5X5AAOnx5S09ydFYWWNSfcEqDTTHgtNA==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" integrity="sha512-16esztaSRplJROstbIIdwX3N97V1+pZvV33ABoG1H2OyTttBxEGkTsoIVsiP1iaTtM8b3+hu2kB6pQ4Clr5yug==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" integrity="sha512-Ic9xkERjyZ1xgJ5svx3y0u3xrvfT/uPkV99LBwe68xjy/mGtO+4eURHZBW2xW4SZbFrF1Tf090XqB+EVgXnVjw==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+  <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js" integrity="sha512-eU9ncL6+6PLExMwtTmaM32EAHPih+ND8gSvUg+tgNwps09gFNhBJVLW3VGXw9hUzaDzPwZFx7f4M3/8VXsMdBw==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
 
   <!-- Structured data: SoftwareApplication + FAQ -->
   <script type="application/ld+json">
@@ -82,6 +83,27 @@
         "name": "Do I need to install any software?",
         "acceptedAnswer": { "@type": "Answer", "text": "No installation is required. VECTOR runs in any modern browser on desktop and mobile." }
       }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to convert text to PDF",
+    "step": [
+      { "@type": "HowToStep", "name": "Enter text", "text": "Type or paste your text into the workspace." },
+      { "@type": "HowToStep", "name": "Generate", "text": "Press Download PDF." },
+      { "@type": "HowToStep", "name": "Save", "text": "Your paginated PDF is generated locally and downloaded instantly." }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://vector.calyvent.com/" }
     ]
   }
   </script>
@@ -652,10 +674,14 @@
         <p><strong>Does the PDF support multiple pages?</strong><br>Yes. Long text is automatically paginated, with page numbers on every page.</p>
         <p><strong>Do I need to install anything?</strong><br>No installation is required — Vector runs in any modern browser.</p>
 
-        <nav class="related" aria-label="Related pages">
+        <h2>Related converters</h2>
+        <nav class="related" aria-label="Related converters">
+          <a href="/txt-to-pdf">TXT to PDF</a>
+          <a href="/paste-text-to-pdf">Paste Text to PDF</a>
+          <a href="/notes-to-pdf">Notes to PDF</a>
+          <a href="/plain-text-to-pdf">Plain Text to PDF</a>
           <a href="terms.html">Terms</a>
           <a href="privacy.html">Privacy</a>
-          <a href="https://velocity.calyvent.com" target="_blank" rel="noopener">Velocity</a>
         </nav>
       </section>
     </main>
@@ -675,6 +701,9 @@
   </div>
 
   <script>
+   // Deferred libs (jsPDF/GSAP/Lenis) execute before DOMContentLoaded, so all
+   // initialisation runs here — guaranteeing availability without blocking first paint.
+   document.addEventListener('DOMContentLoaded', function () {
     // Decorative layers (Lenis/GSAP/THREE) are progressive enhancements. They are
     // isolated so that a CDN failure can never break the core text-to-PDF tool.
     let lenis = null;
@@ -740,7 +769,10 @@
       el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
     });
 
-    // WebGL fluid shader background — isolated so a load failure can't break the tool
+    // WebGL fluid shader background — isolated so a load failure can't break the tool.
+    // Wrapped in a function and lazy-invoked after page load so the ~600KB three.js
+    // never competes with first paint (Core Web Vitals).
+    function initWebGL() {
     try {
     if (typeof THREE === 'undefined') throw new Error('three.js unavailable');
     const canvas = document.getElementById('webgl-canvas');
@@ -861,24 +893,47 @@
     } catch (e) {
       /* WebGL background unavailable — the page remains fully usable */
     }
+    } // end initWebGL
 
-    // Preloader animation — guard GSAP, and guarantee the loader always clears
+    // Lazy-load three.js only after the page has fully loaded and the browser is idle,
+    // so the heavy decorative library never delays content or interactivity.
+    function lazyLoadWebGL() {
+      if (typeof THREE !== 'undefined') { initWebGL(); return; }
+      const s = document.createElement('script');
+      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+      s.integrity = 'sha512-dLxUelApnYxpLt6K2iomGngnHO83iUvZytA3YjDUCjT0HDOHKXnVYdf3hU4JjM8uEhxf9nD1/ey98U3t2vZ0qQ==';
+      s.crossOrigin = 'anonymous';
+      s.referrerPolicy = 'no-referrer';
+      s.onload = initWebGL;
+      document.head.appendChild(s);
+    }
+    const scheduleWebGL = () => ('requestIdleCallback' in window)
+      ? requestIdleCallback(lazyLoadWebGL, { timeout: 2000 })
+      : setTimeout(lazyLoadWebGL, 600);
+    if (document.readyState === 'complete') scheduleWebGL();
+    else window.addEventListener('load', scheduleWebGL);
+
+    // Preloader — kept elegant, but tightened (~1.4s) so it doesn't hurt LCP.
+    // Honours reduced-motion and always clears so it can never trap the page.
     const preloader = document.querySelector('.preloader');
     const preloaderText = document.querySelector('.preloader-text');
     const preloaderProgress = document.querySelector('.preloader-progress-bar');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     function dismissPreloader() {
       if (preloader) preloader.style.display = 'none';
     }
 
-    if (typeof gsap !== 'undefined') {
-      gsap.to(preloaderText, { opacity: 1, duration: 0.5, delay: 0.2 });
-      gsap.to(preloaderProgress, { width: '100%', duration: 1.5, ease: 'power2.inOut', delay: 0.5 });
+    if (reduceMotion) {
+      dismissPreloader();
+    } else if (typeof gsap !== 'undefined') {
+      gsap.to(preloaderText, { opacity: 1, duration: 0.4, delay: 0.1 });
+      gsap.to(preloaderProgress, { width: '100%', duration: 0.9, ease: 'power2.inOut', delay: 0.15 });
       gsap.to(preloader, {
         yPercent: -100,
-        duration: 1,
+        duration: 0.7,
         ease: 'power4.inOut',
-        delay: 2.5,
+        delay: 1.1,
         onComplete: dismissPreloader
       });
     } else {
@@ -886,7 +941,7 @@
       dismissPreloader();
     }
     // Safety net: never let the preloader trap the page, regardless of animation state
-    setTimeout(dismissPreloader, 4000);
+    setTimeout(dismissPreloader, 2500);
 
     // Update timestamp
     function updateTimestamp() {
@@ -1037,7 +1092,7 @@
         }
       });
     }
-
+   }); // end DOMContentLoaded
   </script>
 </body>
 </html>
